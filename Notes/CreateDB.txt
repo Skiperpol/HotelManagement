@@ -1,0 +1,45 @@
+CREATE DATABASE HotelManagementDB;
+USE HotelManagementDB;
+CREATE TABLE EmployeeLogin (
+    employeeId int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    EmpLogin varchar(40),
+    EmpPassword varchar(50)
+);
+CREATE TABLE Employee (
+    personId int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    firstName varchar(20) NOT NULL,
+    lastName varchar(25) NOT NULL,
+    PESEL varchar(15),
+    phoneNumber varchar(15),
+    emailAddress varchar(40),
+    job varchar(15),
+    salary float,
+    commission float,
+    hourlyWage float
+);
+CREATE TABLE Guest (
+    personId int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    firstName varchar(20) NOT NULL,
+    lastName varchar(25) NOT NULL,
+    PESEL varchar(15),
+    phoneNumber varchar(15),
+    emailAddress varchar(40),
+    additionalCharges int,
+    roomNumber int,
+    checkInDate DATE,
+    checkOutDate DATE
+);
+CREATE TABLE Room (
+    roomId int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    roomNumber int,
+    roomPrice float,
+    roomIsEmpty boolean,
+    roomIsClean boolean,
+    roomtype varchar(10),
+    guestIds varchar(35)
+);
+CREATE TABLE Menu (
+    dishId int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    dishName varchar(40),
+    dishPrice float
+);
