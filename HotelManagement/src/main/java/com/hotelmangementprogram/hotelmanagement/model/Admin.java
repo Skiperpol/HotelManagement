@@ -11,24 +11,31 @@ import lombok.NoArgsConstructor;
 @Table(name = "employee")
 @Getter
 @NoArgsConstructor
-public class Cleaner extends Employee{
-    @Column(name = "commission")
-    private Float commission;
+public class Admin extends Employee{
+    @Column(name = "salary")
+    private Float salary;
 
-    public Cleaner(Long employeeId, String firstName, String lastName, String pesel, String phoneNumber, String emailAddress, Job job, Float commission){
+
+    public Admin(Long employeeId, String firstName, String lastName, String pesel, String phoneNumber, String emailAddress, Job job, Float salary){
         super(employeeId, firstName, lastName, pesel, phoneNumber, emailAddress, job);
-        this.commission = commission;
-        //Lombok does not have an annotation for superclasses sadly
+        this.salary = salary;
     }
 
-    public void cleanRoom(){
-
-    }
-
-    public void showUncleanedRooms(){
+    public void fire(){
 
     }
 
+    public void hire(){
+
+    }
+
+    public void preview(){
+
+    }
+
+    public void edit(){
+
+    }
     public void calculatePaycheck(){
 
     }

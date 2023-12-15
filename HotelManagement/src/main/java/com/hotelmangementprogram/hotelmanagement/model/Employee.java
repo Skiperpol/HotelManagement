@@ -19,4 +19,7 @@ public abstract class Employee extends People{
         this.job = job;
         //Lombok does not have an annotation for superclasses sadly
     }
+    public void calculatePaycheck(){
+
+    }
 }

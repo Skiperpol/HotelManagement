@@ -11,5 +11,20 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 public class Guest extends People{
-    private byte dontDeleteMeUntilYouAddSomethingElse; //Lombok will crash with empty class. Delete when you add something else
+    private Integer additionalCharges;
+    private Integer roomNumber;
+    private String checkInDate;
+    private String checkOutDate;
+
+    public Guest(Integer additionalCharges, Integer roomNumber, String checkInDate, String checkOutDate){
+        this.additionalCharges=additionalCharges;
+        this.roomNumber=roomNumber;
+        this.checkInDate=checkInDate;
+        this.checkOutDate=checkOutDate;
+
+    }
+
+    public askToCleanRoom(){
+
+    }
 }
