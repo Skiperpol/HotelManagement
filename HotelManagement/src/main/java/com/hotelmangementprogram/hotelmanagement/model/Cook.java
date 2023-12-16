@@ -3,7 +3,6 @@ package com.hotelmangementprogram.hotelmanagement.model;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -12,9 +11,9 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class Cook extends Employee{
-//    @Column(name = "salary")
+    @Column(name = "salary")
     private Float salary;
-//    @Column(name = "commission")
+    @Column(name = "commission")
     private Float commission;
 
     public Cook(Long employeeId, String firstName, String lastName, String pesel, String phoneNumber, String emailAddress, Job job, Float commission, Float salary){

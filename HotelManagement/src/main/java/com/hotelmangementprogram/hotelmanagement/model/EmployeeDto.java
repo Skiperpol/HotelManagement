@@ -13,8 +13,5 @@ public class EmployeeDto {
     private String pesel;
     private String phoneNumber;
     private String emailAddress;
-    private String job;
-    private Float salary;
-    private Float commission;
-    private Float hourlyWage;
+    private Float salaryIfApplicable;
 }

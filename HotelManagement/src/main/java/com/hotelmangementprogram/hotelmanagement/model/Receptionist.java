@@ -3,7 +3,6 @@ package com.hotelmangementprogram.hotelmanagement.model;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -12,10 +11,10 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class Receptionist extends Employee{
-//    @Column(name = "salary")
+    @Column(name = "salary")
     private Float salary;
 
-    public Receptionist(Long employeeId, String firstName, String lastName, String pesel, String phoneNumber, String emailAddress, Job job, Float commission){
+    public Receptionist(Long employeeId, String firstName, String lastName, String pesel, String phoneNumber, String emailAddress, Job job, Float salary){
         super(employeeId, firstName, lastName, pesel, phoneNumber, emailAddress, job);
         this.salary = salary;
         //Lombok does not have an annotation for superclasses sadly

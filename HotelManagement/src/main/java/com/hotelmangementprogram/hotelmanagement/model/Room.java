@@ -14,4 +14,14 @@ public class Room {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "roomId")
     private Long roomId;
+    @Column(name = "roomPrice")
+    private Long roomPrice;
+    @Column(name = "roomIsEmpty")
+    private boolean roomIsEmpty;
+    @Column(name = "roomIsClean")
+    private boolean roomIsClean;
+    @Column(name = "roomType")
+    private RoomType roomType;
+    @Column(name = "guestIds")
+    private String guestIds;
 }
