@@ -12,9 +12,9 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class Admin extends Employee{
-    @Column(name = "salary")
-    private Float salary;
 
+//    @Column(name = "salary")
+    private Float salary;
 
     public Admin(Long employeeId, String firstName, String lastName, String pesel, String phoneNumber, String emailAddress, Job job, Float salary){
         super(employeeId, firstName, lastName, pesel, phoneNumber, emailAddress, job);
@@ -34,6 +34,9 @@ public class Admin extends Employee{
     }
 
     public void edit(){
+
+    }
+    public void raport(){
 
     }
     public void calculatePaycheck(){

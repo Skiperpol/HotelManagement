@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class Cleaner extends Employee{
-    @Column(name = "commission")
+//    @Column(name = "commission")
     private Float commission;
 
     public Cleaner(Long employeeId, String firstName, String lastName, String pesel, String phoneNumber, String emailAddress, Job job, Float commission){
@@ -25,11 +25,13 @@ public class Cleaner extends Employee{
 
     }
 
-    public void showUncleanedRooms(){
-
-    }
 
     public void calculatePaycheck(){
 
     }
+   public void showUncleanedRooms(){
+        //{wyświetla pokoje o składowej
+       //
+       //        isClean==false};
+   }
 }

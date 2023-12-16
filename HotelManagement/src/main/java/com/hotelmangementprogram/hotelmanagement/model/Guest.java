@@ -7,10 +7,11 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "guest")
-@AllArgsConstructor
+//@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 public class Guest extends People{
+
     private Integer additionalCharges;
     private Integer roomNumber;
     private String checkInDate;
@@ -21,10 +22,8 @@ public class Guest extends People{
         this.roomNumber=roomNumber;
         this.checkInDate=checkInDate;
         this.checkOutDate=checkOutDate;
-
     }
-
-    public askToCleanRoom(){
+    public void askToCleanRoom(){
 
     }
 }
