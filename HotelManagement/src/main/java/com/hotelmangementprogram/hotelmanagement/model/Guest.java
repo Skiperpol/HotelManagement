@@ -5,14 +5,21 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Entity
 @Table(name = "guest")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 public class Guest extends People{
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "personId")
-    private Long personId;
+
+    private Float additionalCharges;
+    private Integer roomNumber;
+    private LocalDate checkInDate;
+    private LocalDate checkOutDate;
+
+    public void askToCleanRoom(){
+
+    }
 }
