@@ -1,16 +1,17 @@
 package com.hotelmangementprogram.hotelmanagement;
 
+import com.hotelmangementprogram.hotelmanagement.model.Menu;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 
 @SpringBootApplication
 public class HotelManagementApplication {
-	private ArrayList<String> pendingOrders;
+	private ArrayList<Menu> pendingOrders;
 	private double balance;
-	private Date currentDate;
+	private LocalDate currentDate;
 
 	/**
 	 * Initializes the whole HotelManagement system:
