@@ -36,8 +36,4 @@ public class HotelManagementApplication {
 
 	}
 
-	public static void main(String[] args) {
-		SpringApplication.run(HotelManagementApplication.class, args);
-	}
-
 }
