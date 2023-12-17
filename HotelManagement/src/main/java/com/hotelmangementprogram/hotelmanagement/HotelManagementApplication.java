@@ -13,6 +13,7 @@ public class HotelManagementApplication {
 	private double balance;
 	private LocalDate currentDate;
 
+
 	/**
 	 * Initializes the whole HotelManagement system:
 	 * Connects to the database and loads all the necessary data.
@@ -34,6 +35,10 @@ public class HotelManagementApplication {
 	 */
 	public void nextDay(){
 
+	}
+
+	public static void main(String[] args) {
+		SpringApplication.run(HotelManagementApplication.class, args);
 	}
 
 }
