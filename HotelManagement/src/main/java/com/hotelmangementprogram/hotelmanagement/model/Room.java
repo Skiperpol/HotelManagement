@@ -27,9 +27,6 @@ public class Room {
     @Column(name = "roomType")
     @Enumerated(EnumType.STRING)
     private RoomType roomType;
-    /* TODO - Sync guestIds with guest class
     @Column(name = "guestIds")
-    @OneToMany(mappedBy = "room")
-    private ArrayList<> guestIds;
-    */
+    private String guestIds;
 }
