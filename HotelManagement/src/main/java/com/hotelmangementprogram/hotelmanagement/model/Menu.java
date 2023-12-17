@@ -13,9 +13,9 @@ public class Menu {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "dishId")
-    private Long guestId;
+    private Long dishId;
     @Column(name = "dishName")
     private String dishName;
     @Column(name = "dishPrice")
-    private Float namePrice;
+    private double dishPrice;
 }
