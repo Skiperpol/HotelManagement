@@ -11,5 +11,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 public class Guest extends People{
-    private byte dontDeleteMeUntilYouAddSomethingElse; //Lombok will crash with empty class. Delete when you add something else
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "personId")
+    private Long personId;
 }
