@@ -1,23 +1,22 @@
 package com.hotelmangementprogram.hotelmanagement.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Entity
-@Table(name = "employee")
+import java.io.Serializable;
+
+@Entity(name = "RECEPTIONIST")
 @Getter
 @NoArgsConstructor
-public class Receptionist extends Employee{
+@DiscriminatorValue("RECEPTIONIST")
+public class Receptionist extends Employee implements Serializable {
     @Column(name = "salary")
     private Float salary;
 
     public Receptionist(Long employeeId, String firstName, String lastName, String pesel, String phoneNumber, String emailAddress, Job job, Float salary){
         super(employeeId, firstName, lastName, pesel, phoneNumber, emailAddress, job);
         this.salary = salary;
-        //Lombok does not have an annotation for superclasses sadly
     }
     @Override
     public void calculatePaycheck(){

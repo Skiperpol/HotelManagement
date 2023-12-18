@@ -3,7 +3,9 @@ package com.hotelmangementprogram.hotelmanagement.service;
 import com.hotelmangementprogram.hotelmanagement.model.*;
 import com.hotelmangementprogram.hotelmanagement.repository.*;
 import lombok.RequiredArgsConstructor;
+import net.sf.jsqlparser.statement.DeclareType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.jackson.JacksonProperties;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -27,7 +29,7 @@ public class HotelService {
      * Method saves an Employee object and its credentials in the database and returns its body.
      *
      * @param employee Employee object to be saved
-     * @Results: (1) Saves the Employee object and its credentials saved in the database and returns its body.
+     * @Results: (1) Saves the Employee object and its credentials in the database and returns its body.
      **/
     public Employee createEmployee(EmployeeLogin employeeLogin, Employee employee){
         employeeLoginRepository.save(employeeLogin);
@@ -108,5 +110,25 @@ public class HotelService {
      **/
     public Optional<EmployeeLogin> getEmployeeLogin(Long employeeId){
         return employeeLoginRepository.findById(employeeId);
+    }
+
+    /**
+     * Method saves a Room object in the database and returns its body.
+     *
+     * @param room Room object to be saved
+     * @Results: (1) Saves the Room object in the database and returns its body.
+     **/
+    public Room createRoom(Room room) {
+        return roomRepository.save(room);
+    }
+
+    /**
+     * Method saves a Guest object in the database and returns its body.
+     *
+     * @param guest Guest object to be saved
+     * @Results: (1) Saves the Guest object in the database and returns its body.
+     **/
+    public Guest createGuest(Guest guest) {
+        return guestRepository.save(guest);
     }
 }

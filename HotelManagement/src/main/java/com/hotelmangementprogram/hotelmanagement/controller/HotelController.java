@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")  //For frontend angular later on
 @RequiredArgsConstructor
@@ -36,26 +38,195 @@ public class HotelController {
         //Checks the validity of data
         if (!dataValidation.checkEmployeeData())
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("To be implemented");
+                    .body("Check input data");
         //Data is valid, creates new record in the database
-        Employee newEmployee = hotelService.createEmployee(
-                new EmployeeLogin(
-                        EMPTY_ID,
-                        employeeDto.getEmpLogin(),
-                        employeeDto.getEmpPassword()
-                ),
-                new Admin( //works for all jobs
-                        EMPTY_ID,
-                        employeeDto.getFirstName(),
-                        employeeDto.getLastName(),
-                        employeeDto.getPesel(),
-                        employeeDto.getPhoneNumber(),
-                        employeeDto.getEmailAddress(),
-                        Enum.valueOf(Job.class, job.toUpperCase()),
-                        employeeDto.getSalaryIfApplicable()
-                )
-        );
+        Employee newEmployee = null;
+        EmployeeLogin newLogin = new EmployeeLogin(EMPTY_ID, employeeDto.getEmpLogin(), employeeDto.getEmpPassword());
+        switch (job){
+            case  "admin" ->
+                newEmployee = hotelService.createEmployee(
+                        newLogin,
+                        new Admin(
+                                EMPTY_ID,
+                                employeeDto.getFirstName(),
+                                employeeDto.getLastName(),
+                                employeeDto.getPesel(),
+                                employeeDto.getPhoneNumber(),
+                                employeeDto.getEmailAddress(),
+                                null,
+                                employeeDto.getSalaryIfApplicable()
+                        )
+                );
+            case  "cleaner" ->
+                    newEmployee = hotelService.createEmployee(
+                            newLogin,
+                            new Cleaner(
+                                    EMPTY_ID,
+                                    employeeDto.getFirstName(),
+                                    employeeDto.getLastName(),
+                                    employeeDto.getPesel(),
+                                    employeeDto.getPhoneNumber(),
+                                    employeeDto.getEmailAddress(),
+                                    null,
+                                    null
+                            )
+                    );
+            case  "cook" ->
+                    newEmployee = hotelService.createEmployee(
+                            newLogin,
+                            new Cook(
+                                    EMPTY_ID,
+                                    employeeDto.getFirstName(),
+                                    employeeDto.getLastName(),
+                                    employeeDto.getPesel(),
+                                    employeeDto.getPhoneNumber(),
+                                    employeeDto.getEmailAddress(),
+                                    null,
+                                    null,
+                                    employeeDto.getSalaryIfApplicable()
+                            )
+                    );
+            case  "receptionist" ->
+                    newEmployee = hotelService.createEmployee(
+                            newLogin,
+                            new Receptionist(
+                                    EMPTY_ID,
+                                    employeeDto.getFirstName(),
+                                    employeeDto.getLastName(),
+                                    employeeDto.getPesel(),
+                                    employeeDto.getPhoneNumber(),
+                                    employeeDto.getEmailAddress(),
+                                    null,
+                                    employeeDto.getSalaryIfApplicable()
+                            )
+                    );
+            case  "waiter" ->
+                    newEmployee = hotelService.createEmployee(
+                            newLogin,
+                            new Waiter(
+                                    EMPTY_ID,
+                                    employeeDto.getFirstName(),
+                                    employeeDto.getLastName(),
+                                    employeeDto.getPesel(),
+                                    employeeDto.getPhoneNumber(),
+                                    employeeDto.getEmailAddress(),
+                                    null,
+                                    null
+                            )
+                    );
+        }
+        newEmployee.setJob(Enum.valueOf(Job.class, job.toUpperCase())); //it is never null as a wrong job in request will not get past data validation
         return ResponseEntity.status(HttpStatus.CREATED).body(newEmployee);
     }
+
+    /**
+     * Creates new Room record in the database. Data given checked by dataValidation service.
+     *
+     * @RequestBody: RoomDto
+     * @Results: (1) Valid data, new entry in the database created, Http status 201 (CREATED),
+     * returns full new Room body.
+     * <p></p>(2) Invalid data or part of it, Http status 400 (BAD_REQUEST),
+     * returns error message with its source specified.
+     * @URL: POST http://localhost:8080/hotel/room/add
+     */
+    @PostMapping("/room/add")
+    public ResponseEntity<Object> createRoom(@RequestBody RoomDto roomDto){
+        if (!dataValidation.checkRoomData())
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Check input data");
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(hotelService.createRoom(new Room(
+                        EMPTY_ID,
+                        roomDto.getRoomNumber(),
+                        roomDto.getRoomPrice(),
+                        true,
+                        true,
+                        Enum.valueOf(RoomType.class, roomDto.getRoomType().toUpperCase()),
+                        EMPTY_IDS
+                )));
+    }
+
+    /**
+     * Creates new Guest record in the database. Data given checked by dataValidation service.
+     *
+     * @RequestBody: guestDto
+     * @Results: (1) Valid data, new entry in the database created, Http status 201 (CREATED),
+     * returns full new Guest body.
+     * <p></p>(2) Invalid data or part of it, Http status 400 (BAD_REQUEST),
+     * returns error message with its source specified.
+     * @URL: POST http://localhost:8080/hotel/guest/add
+     */
+    @PostMapping("/guest/add")
+    public ResponseEntity<Object> createGuest(@RequestBody GuestDto guestDto){
+        if (!dataValidation.checkGuestData())
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Check input data");
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(hotelService.createGuest(new Guest(
+                        EMPTY_ID,
+                        guestDto.getFirstName(),
+                        guestDto.getLastName(),
+                        guestDto.getPesel(),
+                        guestDto.getPhoneNumber(),
+                        guestDto.getEmailAddress(),
+                        null,
+                        null,
+                        null,
+                        null
+                )));
+    }
+
+    //------------------------------------ GET REQUESTS ---------------------------------------------------
+
+    //Standard Getters to the database by Id and by all
+    @GetMapping("/employee/get/{employeeId}")
+    public ResponseEntity<Object> getEmployee(@PathVariable Long employeeId){
+        if(!dataValidation.checkEmployeeExists(employeeId)){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Employee doesn't exist");
+        }
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(hotelService.getEmployee(employeeId));
+    }
+
+    @GetMapping("employee/get/all")
+    public ResponseEntity<List<Employee>> getEmployees(){
+        return ResponseEntity.status((HttpStatus.OK))
+                .body(hotelService.getEmployees());
+    }
+
+    @GetMapping("room/get/{roomId}")
+    public ResponseEntity<Object> getRoom(@PathVariable Long roomId){
+        if(!dataValidation.checkRoomExists(roomId)){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Room doesn't exist");
+        }
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(hotelService.getRoom(roomId));
+    }
+
+    @GetMapping("room/get/all")
+    public ResponseEntity<List<Room>> getRooms(){
+        return ResponseEntity.status((HttpStatus.OK))
+                .body(hotelService.getRooms());
+    }
+
+    @GetMapping("guest/get/{guestId}")
+    public ResponseEntity<Object> getGuest(@PathVariable Long guestId){
+        if(!dataValidation.checkGuestExists(guestId)){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Guest doesn't exist");
+        }
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(hotelService.getGuest(guestId));
+    }
+
+    @GetMapping("guest/get/all")
+    public ResponseEntity<List<Guest>> getGuests(){
+        return ResponseEntity.status((HttpStatus.OK))
+                .body(hotelService.getGuests());
+    }
+
+
 
 }

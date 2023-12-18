@@ -27,4 +27,23 @@ public class DataValidation {
         //To be implemented, test method
         return true;
     }
+
+    public boolean checkEmployeeExists(Long employeeId) {
+        return true;
+    }
+
+    public boolean checkRoomExists(Long roomId) { return  true;
+    }
+
+    public boolean checkRoomData() {
+        return true;
+    }
+
+    public boolean checkGuestData() {
+        return true;
+    }
+
+    public boolean checkGuestExists(Long guestId) {
+        return true;
+    }
 }

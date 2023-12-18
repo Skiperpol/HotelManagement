@@ -1,16 +1,16 @@
 package com.hotelmangementprogram.hotelmanagement.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Entity
-@Table(name = "employee")
+import java.io.Serializable;
+
+@Entity(name = "ADMIN")
 @Getter
 @NoArgsConstructor
-public class Admin extends Employee{
+@DiscriminatorValue("ADMIN")
+public class Admin extends Employee implements Serializable {
 
     @Column(name = "salary")
     private Float salary;

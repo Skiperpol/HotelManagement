@@ -17,7 +17,7 @@ public class Room {
     @Column(name = "roomId")
     private Long roomId;
     @Column(name = "roomNumber")
-    private int roomNumber;
+    private Long roomNumber;
     @Column(name = "roomPrice")
     private double roomPrice;
     @Column(name = "roomIsEmpty")
