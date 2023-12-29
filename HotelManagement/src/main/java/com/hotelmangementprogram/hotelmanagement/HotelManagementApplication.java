@@ -9,9 +9,9 @@ import java.util.ArrayList;
 
 @SpringBootApplication
 public class HotelManagementApplication {
-	private ArrayList<Menu> pendingOrders;
-	private double balance;
-	private LocalDate currentDate;
+	public static ArrayList<Menu> pendingOrders = new ArrayList<>();
+	public static double balance;
+	public static LocalDate currentDate;
 
 
 	/**

@@ -1,5 +1,6 @@
 package com.hotelmangementprogram.hotelmanagement.service;
 
+import com.hotelmangementprogram.hotelmanagement.HotelManagementApplication;
 import com.hotelmangementprogram.hotelmanagement.model.*;
 import com.hotelmangementprogram.hotelmanagement.repository.*;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.jackson.JacksonProperties;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.*;
 
 
@@ -130,5 +132,50 @@ public class HotelService {
      **/
     public Guest createGuest(Guest guest) {
         return guestRepository.save(guest);
+    }
+    /**
+     * Method adds order to the pending orders list and updates the specified guest record
+     * in the database.
+     *
+     * @param orderDto Dto carrying Id of the ordering guest and Ids of ordered dishes.
+     * @Results: (1) Updates the run-time pending orders list and the guest record in the database.
+     **/
+    public void acceptOrder(OrderDto orderDto) {
+        Optional<Guest> guestOptional = getGuest(Long.parseLong(orderDto.getGuestId()));
+        assert guestOptional.isPresent();
+        Guest guest = guestOptional.get();
+        List<Menu> menu = getMenu();
+        for(String id: orderDto.getDishIds().split(",")){
+            Menu dish = menu.get(Integer.parseInt(id)-1);
+            HotelManagementApplication.pendingOrders
+                    .add(dish);
+            guest.addAdditionalCharges(dish.getDishPrice());
+        }
+        createGuest(guest);
+    }
+    /**
+     * Method updates room and guest records in the database, assigning guests to rooms
+     *
+     * @param guestAssignDto Dto carrying the assignment data
+     * @Results: (1) Updates records in the database
+     **/
+    public void assignRoom(GuestAssignDto guestAssignDto) {
+        Room newRoom = roomRepository.findAll().stream()
+                .filter(room -> room.getRoomNumber().equals(guestAssignDto.getRoomNumber()))
+                .findAny().get(); //Always is present
+        newRoom.setRoomIsEmpty(false);
+        newRoom.setGuestIds(guestAssignDto.getGuestIds());
+        for(String guestId: guestAssignDto.getGuestIds().split(",")){
+            Guest currentGuest = guestRepository.findById(Long.parseLong(guestId)).get(); //Always present
+            currentGuest.setRoomNumber(guestAssignDto.getRoomNumber());
+            currentGuest.setCheckInDate(LocalDate.parse(guestAssignDto.getCheckInDate()));
+            currentGuest.setCheckOutDate(LocalDate.parse(guestAssignDto.getCheckOutDate()));
+            createGuest(currentGuest);
+        }
+    }
+
+    public void deleteEmployee(Long employeeId) {
+        employeeRepository.deleteById(employeeId);
+        employeeLoginRepository.deleteById(employeeId);
     }
 }

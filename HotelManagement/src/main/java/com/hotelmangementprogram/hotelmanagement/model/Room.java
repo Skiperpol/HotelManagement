@@ -29,4 +29,16 @@ public class Room {
     private RoomType roomType;
     @Column(name = "guestIds")
     private String guestIds;
+
+    public void setRoomIsClean(boolean roomIsClean) {
+        this.roomIsClean = roomIsClean;
+    }
+
+    public void setGuestIds(String guestIds) {
+        this.guestIds = guestIds;
+    }
+
+    public void setRoomIsEmpty(boolean roomIsEmpty) {
+        this.roomIsEmpty = roomIsEmpty;
+    }
 }

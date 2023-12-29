@@ -8,7 +8,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.DateTimeException;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")  //For frontend angular later on
@@ -34,7 +36,7 @@ public class HotelController {
      * @URL: POST http://localhost:8080/hotel/employee/{job}/add
      */
     @PostMapping("/employee/{job}/add")
-    public ResponseEntity<Object> createDeveloper(@PathVariable String job, @RequestBody EmployeeDto employeeDto) {
+    public ResponseEntity<Object> createEmployee(@PathVariable String job, @RequestBody EmployeeDto employeeDto) {
         //Checks the validity of data
         if (!dataValidation.checkEmployeeData())
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -176,12 +178,53 @@ public class HotelController {
                 )));
     }
 
+    /**
+     * Creates new Employee and EmployeeLogin record in the database. Data given checked by dataValidation service.
+     *
+     * @RequestBody: OrderDto data of the pending order
+     * @Results: (1) Database and run-time pending order list updated, returns Http status 202 (ACCEPTED)
+     * <p> (2) Invalid data, returns Http status 400 (BAD_REQUEST)
+     * @URL: POST http://localhost:8080/hotel/waiter/accept
+     */
+    @PostMapping("/waiter/accept")
+    public ResponseEntity<Object> acceptOrder(@RequestBody OrderDto orderDto){
+        try{
+            dataValidation.checkOrderData(orderDto);
+        }catch (IllegalArgumentException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Check order data");
+        }
+        hotelService.acceptOrder(orderDto);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+    }
+
+    //------------------------------------ PUT REQUESTS ---------------------------------------------------
+    /**
+     * Creates new Employee and EmployeeLogin record in the database. Data given checked by dataValidation service.
+     *
+     * @RequestBody: guestAssignDto data of the assignment
+     * @Results: (1) Room and Guest records in the database updated, returns Http status 200 (OK)
+     * <p> (2) Invalid data, returns Http status 400 (BAD_REQUEST)
+     * @URL: PUT http://localhost:8080/receptionist/assign
+     */
+    @PutMapping("/receptionist/assign")
+    public ResponseEntity<Object> assignRoom(@RequestBody GuestAssignDto guestAssignDto){
+        try {
+            dataValidation.checkAssignRoomData(guestAssignDto);
+        }catch (IllegalArgumentException | DateTimeException | NoSuchElementException ex){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Check guest Ids, room number, state and dates of the stay");
+        }
+        hotelService.assignRoom(guestAssignDto);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
     //------------------------------------ GET REQUESTS ---------------------------------------------------
 
     //Standard Getters to the database by Id and by all
     @GetMapping("/employee/get/{employeeId}")
     public ResponseEntity<Object> getEmployee(@PathVariable Long employeeId){
-        if(!dataValidation.checkEmployeeExists(employeeId)){
+        try{
+            dataValidation.checkEmployeeExists(employeeId);
+        }catch (NoSuchElementException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body("Employee doesn't exist");
         }
@@ -213,7 +256,9 @@ public class HotelController {
 
     @GetMapping("guest/get/{guestId}")
     public ResponseEntity<Object> getGuest(@PathVariable Long guestId){
-        if(!dataValidation.checkGuestExists(guestId)){
+        try{
+            dataValidation.checkGuestExists(guestId);
+        }catch (IllegalArgumentException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body("Guest doesn't exist");
         }
@@ -227,6 +272,17 @@ public class HotelController {
                 .body(hotelService.getGuests());
     }
 
+    //----------------------------------- DELETE REQUESTS ---------------------------------------------------
+    @DeleteMapping("/employee/{employeeId}/delete")
+    public ResponseEntity<Object> deleteEmployee(@PathVariable Long employeeId){
+        try{
+            dataValidation.checkEmployeeExists(employeeId);
+        }catch (NoSuchElementException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No such employee exists");
+        }
+        hotelService.deleteEmployee(employeeId);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
 
 
 }
