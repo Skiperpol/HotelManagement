@@ -1,13 +1,14 @@
 package com.hotelmangementprogram.hotelmanagement.model;
 
+import com.hotelmangementprogram.hotelmanagement.PaycheckStrategy.*;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.io.Serializable;
 
 @Entity(name = "COOK")
 @Getter
+@Setter
 @NoArgsConstructor
 @DiscriminatorValue("COOK")
 public class Cook extends Employee implements Serializable {
@@ -20,6 +21,7 @@ public class Cook extends Employee implements Serializable {
         super(employeeId, firstName, lastName, pesel, phoneNumber, emailAddress, job);
         this.commission = commission;
         this.salary = salary;
+        paycheck=new SalaryAndCommision(salary,commission);
     }
 
     public void completeOrder(){
@@ -30,7 +32,4 @@ public class Cook extends Employee implements Serializable {
 
     }
 
-    public void calculatePaycheck(){
-
-    }
 }
