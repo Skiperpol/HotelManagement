@@ -1,5 +1,7 @@
 package com.hotelmangementprogram.hotelmanagement.model;
 
+import com.hotelmangementprogram.hotelmanagement.PaycheckStrategy.Hourly;
+import com.hotelmangementprogram.hotelmanagement.PaycheckStrategy.Paycheck;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,11 +19,7 @@ public class Waiter extends Employee implements Serializable {
     public Waiter(Long employeeId, String firstName, String lastName, String pesel, String phoneNumber, String emailAddress, Job job, Float hourlyWage) {
         super(employeeId, firstName, lastName, pesel, phoneNumber, emailAddress, job);
         this.hourlyWage = hourlyWage;
-    }
-
-    @Override
-    public void calculatePaycheck() {
-        //strategy Hourly
+        paycheck=new Hourly(hourlyWage,8f);
     }
 
     public void acceptOrder() {

@@ -1,9 +1,10 @@
 package com.hotelmangementprogram.hotelmanagement;
 
-import com.hotelmangementprogram.hotelmanagement.model.Menu;
+import com.hotelmangementprogram.hotelmanagement.model.*;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.sql.SQLOutput;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -37,8 +38,6 @@ public class HotelManagementApplication {
 
 	}
 
-	public static void main(String[] args) {
-		SpringApplication.run(HotelManagementApplication.class, args);
-	}
+	public static void main(String[] args) {SpringApplication.run(HotelManagementApplication.class, args);}
 
 }

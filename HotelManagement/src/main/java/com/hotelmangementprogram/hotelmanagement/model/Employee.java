@@ -1,5 +1,6 @@
 package com.hotelmangementprogram.hotelmanagement.model;
 
+import com.hotelmangementprogram.hotelmanagement.PaycheckStrategy.Paycheck;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,6 +21,9 @@ public abstract class Employee extends People implements Serializable {
     @Enumerated(EnumType.STRING)
     protected Job job;
 
+    @Transient
+    protected Paycheck paycheck;
+
     //paychecks
     public Employee(Long employeeId, String firstName, String lastName, String pesel, String phoneNumber, String emailAddress, Job job){
         super(employeeId, firstName, lastName, pesel, phoneNumber, emailAddress);
@@ -29,6 +33,9 @@ public abstract class Employee extends People implements Serializable {
     public void setJob(Job job){
         this.job = job;
     }
-    abstract void calculatePaycheck();
+
+    public Float calculatePaycheck(){
+        return paycheck.calculatePaycheck();
+    }
 
 }
