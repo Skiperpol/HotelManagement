@@ -30,7 +30,7 @@ public class HotelController {
 
     public Employee employeeForm(Long employeeId, String job, EmployeeDto employeeDto) {
         Employee employee = null;
-        EmployeeLogin login = new EmployeeLogin(EMPTY_ID, employeeDto.getEmpLogin(), employeeDto.getEmpPassword());
+        EmployeeLogin login = new EmployeeLogin(employeeId, employeeDto.getEmpLogin(), employeeDto.getEmpPassword());
         switch (job) {
             case "admin" -> employee = hotelService.createEmployee(
                     login,
