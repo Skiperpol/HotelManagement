@@ -37,6 +37,11 @@ public class HotelService {
         employeeLoginRepository.save(employeeLogin);
         return employeeRepository.save(employee);
     }
+
+    public Employee updateEmployee( Employee employee){
+        return employeeRepository.save(employee);
+    }
+
     /**
      * Method returns all Employee objects from the database as ArrayList
      *
@@ -180,7 +185,9 @@ public class HotelService {
     }
 
     public void completeOrder(int orderId, Long employeeId){
-        orderId = orderId-1;
-        HotelManagementApplication.pendingOrders.set(orderId, null);
+        Cook cook = (Cook) getEmployee(employeeId).get(); //always present
+        updateEmployee(cook.completeOrder(orderId,employeeId));
     }
+
+
 }
