@@ -1,5 +1,6 @@
 package com.hotelmangementprogram.hotelmanagement.controller;
 
+import com.hotelmangementprogram.hotelmanagement.HotelManagementApplication;
 import com.hotelmangementprogram.hotelmanagement.model.*;
 import com.hotelmangementprogram.hotelmanagement.service.DataValidation;
 import com.hotelmangementprogram.hotelmanagement.service.HotelService;
@@ -9,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.DateTimeException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -217,6 +219,17 @@ public class HotelController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    @PutMapping("/order/complete")
+    public ResponseEntity<Object> completeOrder(@RequestBody OrderDto orderDto, int orderId, Long employeeId){
+        try {
+            dataValidation.checkOrderData(orderDto);
+        }catch (IllegalArgumentException | DateTimeException | NoSuchElementException ex){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Check order ID");
+        }
+        hotelService.completeOrder(orderId, employeeId);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
     //------------------------------------ GET REQUESTS ---------------------------------------------------
 
     //Standard Getters to the database by Id and by all
@@ -270,6 +283,18 @@ public class HotelController {
     public ResponseEntity<List<Guest>> getGuests(){
         return ResponseEntity.status((HttpStatus.OK))
                 .body(hotelService.getGuests());
+    }
+
+    @GetMapping("date/get")
+    public ResponseEntity<LocalDate> getCurrentDate(){
+        return ResponseEntity.status((HttpStatus.OK))
+                .body(HotelManagementApplication.currentDate);
+    }
+
+    @GetMapping("balance/get")
+    public ResponseEntity<Double> getBalance(){
+        return ResponseEntity.status((HttpStatus.OK))
+                .body(HotelManagementApplication.balance);
     }
 
     //----------------------------------- DELETE REQUESTS ---------------------------------------------------

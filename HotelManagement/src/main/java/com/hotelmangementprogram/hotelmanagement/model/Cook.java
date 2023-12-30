@@ -1,6 +1,7 @@
 package com.hotelmangementprogram.hotelmanagement.model;
 
 import com.hotelmangementprogram.hotelmanagement.PaycheckStrategy.*;
+import com.hotelmangementprogram.hotelmanagement.controller.HotelController;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -16,6 +17,7 @@ public class Cook extends Employee implements Serializable {
     private Float salary;
     @Column(name = "commission")
     private Float commission;
+    private HotelController hotelController;
 
     public Cook(Long employeeId, String firstName, String lastName, String pesel, String phoneNumber, String emailAddress, Job job, Float commission, Float salary){
         super(employeeId, firstName, lastName, pesel, phoneNumber, emailAddress, job);
@@ -24,8 +26,8 @@ public class Cook extends Employee implements Serializable {
         paycheck=new SalaryAndCommision(salary,commission);
     }
 
-    public void completeOrder(){
-
+    public void completeOrder(OrderDto orderDto,int orderId){
+        hotelController.completeOrder(orderDto, orderId, getPersonId());
     }
 
     public void showOrders(){

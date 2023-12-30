@@ -178,4 +178,9 @@ public class HotelService {
         employeeRepository.deleteById(employeeId);
         employeeLoginRepository.deleteById(employeeId);
     }
+
+    public void completeOrder(int orderId, Long employeeId){
+        orderId = orderId-1;
+        HotelManagementApplication.pendingOrders.set(orderId, null);
+    }
 }
