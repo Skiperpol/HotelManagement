@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Entity(name = "CLEANER")
 @Getter
@@ -27,9 +28,8 @@ public class Cleaner extends Employee implements Serializable {
 
     }
 
-   public void showUncleanedRooms(){
-        //{wyświetla pokoje o składowej
-       //
-       //        isClean==false};
+   public static List<Room> showUncleanedRooms(List<Room> allRooms){
+        return allRooms.stream()
+                .filter(Room::isRoomIsClean).toList();
    }
 }

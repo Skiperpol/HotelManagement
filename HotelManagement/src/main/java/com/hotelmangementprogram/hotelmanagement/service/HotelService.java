@@ -3,6 +3,7 @@ package com.hotelmangementprogram.hotelmanagement.service;
 import com.hotelmangementprogram.hotelmanagement.HotelManagementApplication;
 import com.hotelmangementprogram.hotelmanagement.model.*;
 import com.hotelmangementprogram.hotelmanagement.repository.*;
+import jakarta.annotation.PreDestroy;
 import lombok.RequiredArgsConstructor;
 import net.sf.jsqlparser.statement.DeclareType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,18 @@ public class HotelService {
     private MenuRepository menuRepository;
     @Autowired
     private RoomRepository roomRepository;
+
+    /**
+     * Method search in the database for asked login and password
+     * @param: (1) empPassword password
+     * <p></p>(2) empLogin login
+     * @Results: returns EmployeeLogin data from database if there's a match
+     */
+    public Optional<EmployeeLogin> login(String empLogin, String empPassword){
+        return employeeLoginRepository.findAll().stream()
+                .filter(employeeLogin -> employeeLogin.getEmpLogin().equals(empLogin)
+                        && employeeLogin.getEmpPassword().equals(empPassword)).findAny();
+    }
 
     /**
      * Method saves an Employee object and its credentials in the database and returns its body.
@@ -177,5 +190,17 @@ public class HotelService {
     public void deleteEmployee(Long employeeId) {
         employeeRepository.deleteById(employeeId);
         employeeLoginRepository.deleteById(employeeId);
+    }
+
+    public List<Room> showVacantRooms(){
+        return Receptionist.showVacantRooms(getRooms());
+    }
+
+    public List<Room> showUncleanedRooms(){
+        return Cleaner.showUncleanedRooms(getRooms());
+    }
+
+    public void shutdown(){
+
     }
 }

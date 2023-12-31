@@ -1,11 +1,16 @@
 package com.hotelmangementprogram.hotelmanagement.model;
 
+import com.hotelmangementprogram.hotelmanagement.HotelManagementApplication;
 import com.hotelmangementprogram.hotelmanagement.PaycheckStrategy.*;
+import com.hotelmangementprogram.hotelmanagement.repository.RoomRepository;
+import com.hotelmangementprogram.hotelmanagement.service.HotelService;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.List;
+import java.util.Optional;
 
 @Entity(name = "RECEPTIONIST")
 @Getter
@@ -26,8 +31,9 @@ public class Receptionist extends Employee implements Serializable {
     public void assignRoom(){
         //przypisuje pokój gościom i wypełnia szczegóły pobytu
     }
-    public void showVacantRooms(){
-       // pokazuje liste pustych pokoi}
+    public static List<Room> showVacantRooms(List<Room> allRooms){
+         return allRooms.stream()
+                 .filter(Room::isRoomIsEmpty).toList();
     }
 
     public void registerNewGuest()
