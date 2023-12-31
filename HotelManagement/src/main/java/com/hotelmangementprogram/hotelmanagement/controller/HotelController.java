@@ -1,5 +1,6 @@
 package com.hotelmangementprogram.hotelmanagement.controller;
 
+import com.hotelmangementprogram.hotelmanagement.HotelManagementApplication;
 import com.hotelmangementprogram.hotelmanagement.model.*;
 import com.hotelmangementprogram.hotelmanagement.service.DataValidation;
 import com.hotelmangementprogram.hotelmanagement.service.HotelService;
@@ -9,13 +10,22 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+<<<<<<< HEAD
 import org.yaml.snakeyaml.events.Event;
+=======
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+>>>>>>> origin/master
 
 import java.time.DateTimeException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
+<<<<<<< HEAD
 import java.util.Objects;
+=======
+>>>>>>> origin/master
 import java.util.Optional;
 
 @RestController
@@ -27,6 +37,81 @@ public class HotelController {
     private final DataValidation dataValidation;
     private static final Long EMPTY_ID = null;
     private static final String EMPTY_IDS = "";
+
+
+    public Employee employeeForm(Long employeeId, String job, EmployeeDto employeeDto) {
+        Employee employee = null;
+        EmployeeLogin login = new EmployeeLogin(employeeId, employeeDto.getEmpLogin(), employeeDto.getEmpPassword());
+        switch (job) {
+            case "admin" -> employee = hotelService.createEmployee(
+                    login,
+                    new Admin(
+                            employeeId,
+                            employeeDto.getFirstName(),
+                            employeeDto.getLastName(),
+                            employeeDto.getPesel(),
+                            employeeDto.getPhoneNumber(),
+                            employeeDto.getEmailAddress(),
+                            null,
+                            employeeDto.getSalaryIfApplicable()
+                    )
+            );
+            case "cleaner" -> employee = hotelService.createEmployee(
+                    login,
+                    new Cleaner(
+                            employeeId,
+                            employeeDto.getFirstName(),
+                            employeeDto.getLastName(),
+                            employeeDto.getPesel(),
+                            employeeDto.getPhoneNumber(),
+                            employeeDto.getEmailAddress(),
+                            null,
+                            null
+                    )
+            );
+            case "cook" -> employee = hotelService.createEmployee(
+                    login,
+                    new Cook(
+                            employeeId,
+                            employeeDto.getFirstName(),
+                            employeeDto.getLastName(),
+                            employeeDto.getPesel(),
+                            employeeDto.getPhoneNumber(),
+                            employeeDto.getEmailAddress(),
+                            null,
+                            null,
+                            employeeDto.getSalaryIfApplicable()
+                    )
+            );
+            case "receptionist" -> employee = hotelService.createEmployee(
+                    login,
+                    new Receptionist(
+                            employeeId,
+                            employeeDto.getFirstName(),
+                            employeeDto.getLastName(),
+                            employeeDto.getPesel(),
+                            employeeDto.getPhoneNumber(),
+                            employeeDto.getEmailAddress(),
+                            null,
+                            employeeDto.getSalaryIfApplicable()
+                    )
+            );
+            case "waiter" -> employee = hotelService.createEmployee(
+                    login,
+                    new Waiter(
+                            employeeId,
+                            employeeDto.getFirstName(),
+                            employeeDto.getLastName(),
+                            employeeDto.getPesel(),
+                            employeeDto.getPhoneNumber(),
+                            employeeDto.getEmailAddress(),
+                            null,
+                            null
+                    )
+            );
+        }
+        return employee;
+    }
 
     //------------------------------------ POST REQUESTS ---------------------------------------------------
 
@@ -78,89 +163,33 @@ public class HotelController {
     @PostMapping("/employee/{job}/add")
     public ResponseEntity<Object> createEmployee(@PathVariable String job, @RequestBody EmployeeDto employeeDto){
         //Checks the validity of data
-        if (!dataValidation.checkEmployeeData())
+        try{
+            dataValidation.checkEmployeeData(employeeDto);
+        } catch(IllegalArgumentException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body("Check input data");
-        //Data is valid, creates new record in the database
-        Employee newEmployee = null;
-        EmployeeLogin newLogin = new EmployeeLogin(EMPTY_ID, employeeDto.getEmpLogin(), employeeDto.getEmpPassword());
-        switch (job){
-            case  "admin" ->
-                newEmployee = hotelService.createEmployee(
-                        newLogin,
-                        new Admin(
-                                EMPTY_ID,
-                                employeeDto.getFirstName(),
-                                employeeDto.getLastName(),
-                                employeeDto.getPesel(),
-                                employeeDto.getPhoneNumber(),
-                                employeeDto.getEmailAddress(),
-                                null,
-                                employeeDto.getSalaryIfApplicable()
-                        )
-                );
-            case  "cleaner" ->
-                    newEmployee = hotelService.createEmployee(
-                            newLogin,
-                            new Cleaner(
-                                    EMPTY_ID,
-                                    employeeDto.getFirstName(),
-                                    employeeDto.getLastName(),
-                                    employeeDto.getPesel(),
-                                    employeeDto.getPhoneNumber(),
-                                    employeeDto.getEmailAddress(),
-                                    null,
-                                    null
-                            )
-                    );
-            case  "cook" ->
-                    newEmployee = hotelService.createEmployee(
-                            newLogin,
-                            new Cook(
-                                    EMPTY_ID,
-                                    employeeDto.getFirstName(),
-                                    employeeDto.getLastName(),
-                                    employeeDto.getPesel(),
-                                    employeeDto.getPhoneNumber(),
-                                    employeeDto.getEmailAddress(),
-                                    null,
-                                    null,
-                                    employeeDto.getSalaryIfApplicable()
-                            )
-                    );
-            case  "receptionist" ->
-                    newEmployee = hotelService.createEmployee(
-                            newLogin,
-                            new Receptionist(
-                                    EMPTY_ID,
-                                    employeeDto.getFirstName(),
-                                    employeeDto.getLastName(),
-                                    employeeDto.getPesel(),
-                                    employeeDto.getPhoneNumber(),
-                                    employeeDto.getEmailAddress(),
-                                    null,
-                                    employeeDto.getSalaryIfApplicable()
-                            )
-                    );
-            case  "waiter" ->
-                    newEmployee = hotelService.createEmployee(
-                            newLogin,
-                            new Waiter(
-                                    EMPTY_ID,
-                                    employeeDto.getFirstName(),
-                                    employeeDto.getLastName(),
-                                    employeeDto.getPesel(),
-                                    employeeDto.getPhoneNumber(),
-                                    employeeDto.getEmailAddress(),
-                                    null,
-                                    null
-                            )
-                    );
         }
+        //Data is valid, creates new record in the database
+        Employee newEmployee = employeeForm(EMPTY_ID, job, employeeDto);
         newEmployee.setJob(Enum.valueOf(Job.class, job.toUpperCase())); //it is never null as a wrong job in request will not get past data validation
         return ResponseEntity.status(HttpStatus.CREATED).body(newEmployee);
     }
 
+
+    @PostMapping("/employee/{job}/edit")
+    public ResponseEntity<Object> editEmployee(Long employeeId, @PathVariable String job, @RequestBody EmployeeDto employeeDto) {
+        //Checks the validity of data
+        try{
+            dataValidation.checkEmployeeData(employeeDto);
+        } catch(IllegalArgumentException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Check input data");
+        }
+        //Data is valid, creates new record in the database
+        Employee newEmployee = employeeForm(employeeId,job,employeeDto);
+        newEmployee.setJob(Enum.valueOf(Job.class, job.toUpperCase())); //it is never null as a wrong job in request will not get past data validation
+        return ResponseEntity.status(HttpStatus.CREATED).body(newEmployee);
+    }
     /**
      * Creates new Room record in the database. Data given checked by dataValidation service.
      *
@@ -257,9 +286,21 @@ public class HotelController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+<<<<<<< HEAD
     @PutMapping("/shutdown")
-    public ResponseEntity<HttpStatus> shutdown(){
+    public ResponseEntity<HttpStatus> shutdown() {
         hotelService.shutdown();
+    }
+=======
+    @PutMapping("/order/complete")
+    public ResponseEntity<Object> completeOrder(@RequestBody OrderDto orderDto, int orderId, Long employeeId){
+        try {
+            dataValidation.checkOrderData(orderDto);
+        }catch (IllegalArgumentException | DateTimeException | NoSuchElementException ex){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Check order ID");
+        }
+        hotelService.completeOrder(orderId,employeeId);
+>>>>>>> origin/master
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
@@ -328,6 +369,18 @@ public class HotelController {
     public ResponseEntity<List<Guest>> getGuests(){
         return ResponseEntity.status((HttpStatus.OK))
                 .body(hotelService.getGuests());
+    }
+
+    @GetMapping("date/get")
+    public ResponseEntity<LocalDate> getCurrentDate(){
+        return ResponseEntity.status((HttpStatus.OK))
+                .body(HotelManagementApplication.currentDate);
+    }
+
+    @GetMapping("balance/get")
+    public ResponseEntity<Double> getBalance(){
+        return ResponseEntity.status((HttpStatus.OK))
+                .body(HotelManagementApplication.balance);
     }
 
     //----------------------------------- DELETE REQUESTS ---------------------------------------------------

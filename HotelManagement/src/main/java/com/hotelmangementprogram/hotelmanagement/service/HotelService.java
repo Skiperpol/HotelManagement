@@ -50,6 +50,11 @@ public class HotelService {
         employeeLoginRepository.save(employeeLogin);
         return employeeRepository.save(employee);
     }
+
+    public Employee updateEmployee( Employee employee){
+        return employeeRepository.save(employee);
+    }
+
     /**
      * Method returns all Employee objects from the database as ArrayList
      *
@@ -192,6 +197,7 @@ public class HotelService {
         employeeLoginRepository.deleteById(employeeId);
     }
 
+<<<<<<< HEAD
     public List<Room> showVacantRooms(){
         return Receptionist.showVacantRooms(getRooms());
     }
@@ -203,4 +209,12 @@ public class HotelService {
     public void shutdown(){
 
     }
+=======
+    public void completeOrder(int orderId, Long employeeId){
+        Cook cook = (Cook) getEmployee(employeeId).get(); //always present
+        updateEmployee(cook.completeOrder(orderId,employeeId));
+    }
+
+
+>>>>>>> origin/master
 }
