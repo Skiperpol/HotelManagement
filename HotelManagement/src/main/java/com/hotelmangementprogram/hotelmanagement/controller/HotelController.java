@@ -253,7 +253,6 @@ public class HotelController {
      * @URL http://localhost:8080/hotel/room/clean
      * @return
      */
-
     @PutMapping("room/clean")
     public ResponseEntity<Object> cleanRoom(@RequestBody Long roomId, Long cleanerId){
         try {
