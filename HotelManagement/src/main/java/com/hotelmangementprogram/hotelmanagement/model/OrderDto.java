@@ -6,7 +6,6 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class OrderDto {
-    private Long orderId;
     private String guestId;
     private String dishIds;
 }

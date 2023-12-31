@@ -1,6 +1,7 @@
 package com.hotelmangementprogram.hotelmanagement.service;
 
 import com.hotelmangementprogram.hotelmanagement.HotelManagementApplication;
+import com.hotelmangementprogram.hotelmanagement.model.EmployeeDto;
 import com.hotelmangementprogram.hotelmanagement.model.GuestAssignDto;
 import com.hotelmangementprogram.hotelmanagement.model.OrderDto;
 import com.hotelmangementprogram.hotelmanagement.model.Room;
@@ -31,9 +32,8 @@ public class DataValidation {
     private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
 
-    public boolean checkEmployeeData() {
+    public void checkEmployeeData(EmployeeDto employeeDto) throws IllegalArgumentException{
         //To be implemented, test method
-        return true;
     }
 
     public void checkEmployeeExists(Long employeeId) throws NoSuchElementException {
