@@ -30,6 +30,6 @@ public class Cleaner extends Employee implements Serializable {
 
    public static List<Room> showUncleanedRooms(List<Room> allRooms){
         return allRooms.stream()
-                .filter(Room::isRoomIsClean).toList();
+                .filter(Room -> !Room.isRoomIsClean()).toList();
    }
 }

@@ -196,8 +196,6 @@ public class HotelService {
         employeeRepository.deleteById(employeeId);
         employeeLoginRepository.deleteById(employeeId);
     }
-
-<<<<<<< HEAD
     public List<Room> showVacantRooms(){
         return Receptionist.showVacantRooms(getRooms());
     }
@@ -206,15 +204,12 @@ public class HotelService {
         return Cleaner.showUncleanedRooms(getRooms());
     }
 
-    public void shutdown(){
+    public void shutdown() {
 
     }
-=======
+
     public void completeOrder(int orderId, Long employeeId){
         Cook cook = (Cook) getEmployee(employeeId).get(); //always present
         updateEmployee(cook.completeOrder(orderId,employeeId));
     }
-
-
->>>>>>> origin/master
 }
