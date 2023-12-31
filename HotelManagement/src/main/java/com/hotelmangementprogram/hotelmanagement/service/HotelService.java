@@ -183,4 +183,26 @@ public class HotelService {
         orderId = orderId-1;
         HotelManagementApplication.pendingOrders.set(orderId, null);
     }
+
+    /**
+     * Method that transitions the HotelManagement system to the next day.
+     */
+    public void nextDay(){
+    }
+
+    public ArrayList<Menu> showOrders(){
+        return Cook.showOrders();
+    }
+
+
+    public void cleanRoom(Long roomId, Long cleanerId){
+        Room room = getRoom(roomId).get();
+        Cleaner cleaner = (Cleaner) (getEmployee(cleanerId).get());
+        EmployeeLogin cleanerLogin = getEmployeeLogin(cleanerId).get();
+        Cleaner.cleanRoom(room, cleaner);
+        createRoom(room);
+        createEmployee(cleanerLogin, cleaner);
+
+    }
+
 }

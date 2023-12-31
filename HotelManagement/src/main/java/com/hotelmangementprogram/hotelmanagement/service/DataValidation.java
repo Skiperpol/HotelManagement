@@ -41,7 +41,11 @@ public class DataValidation {
             throw new NoSuchElementException();
     }
 
-    public boolean checkRoomExists(Long roomId) { return  true;
+    public boolean checkRoomExists(Long roomId) throws NoSuchElementException {
+        if(roomRepository.findById(roomId).isEmpty()){
+            throw new NoSuchElementException();
+        }
+        return true;
     }
 
     public boolean checkRoomData() {

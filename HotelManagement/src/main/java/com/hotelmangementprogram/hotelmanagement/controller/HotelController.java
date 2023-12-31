@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.DateTimeException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -72,7 +73,8 @@ public class HotelController {
                                     employeeDto.getPhoneNumber(),
                                     employeeDto.getEmailAddress(),
                                     null,
-                                    null
+                                    (float) 0.0
+
                             )
                     );
             case  "cook" ->
@@ -199,6 +201,16 @@ public class HotelController {
         return ResponseEntity.status(HttpStatus.ACCEPTED).build();
     }
 
+    /**
+     * Method that transitions the HotelManagement system to the next day.
+     */
+    @PostMapping("/nextDay")
+    public ResponseEntity<Object> nextDay(){
+        hotelService.nextDay();
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+
     //------------------------------------ PUT REQUESTS ---------------------------------------------------
     /**
      * Creates new Employee and EmployeeLogin record in the database. Data given checked by dataValidation service.
@@ -227,6 +239,36 @@ public class HotelController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Check order ID");
         }
         hotelService.completeOrder(orderId, employeeId);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    /**
+     * Sets the parameter of the specified room to 'true' and adds a certain value
+     * to the commission field of the specified cleaner (based on the roomType).
+     *
+     * @RequestBody roomId, cleanerId - kinda self-explanatory
+     * @Results (1) Http status 400 (BAD REQUEST) when the roomId is incorrect
+     * <p>(2) Http status 400 (BAD REQUEST) when the cleanerId is incorrect </p>
+     * <p>(3) Http status 200 (OK) when everything went according to then plan d-_-b</p>
+     * @URL http://localhost:8080/hotel/room/clean
+     * @return
+     */
+
+    @PutMapping("room/clean")
+    public ResponseEntity<Object> cleanRoom(@RequestBody Long roomId, Long cleanerId){
+        try {
+            dataValidation.checkRoomExists(roomId);
+        }catch (NoSuchElementException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No such room exists");
+        }
+
+        try {
+            dataValidation.checkEmployeeExists(cleanerId);
+        }catch (NoSuchElementException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No such cleaner exists");
+        }
+
+        hotelService.cleanRoom(roomId, cleanerId);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
@@ -295,6 +337,12 @@ public class HotelController {
     public ResponseEntity<Double> getBalance(){
         return ResponseEntity.status((HttpStatus.OK))
                 .body(HotelManagementApplication.balance);
+    }
+
+    @GetMapping("order/get/all")
+    public ResponseEntity<ArrayList<Menu>> showOrders(){
+        return ResponseEntity.status((HttpStatus.OK))
+                .body(hotelService.showOrders());
     }
 
     //----------------------------------- DELETE REQUESTS ---------------------------------------------------
