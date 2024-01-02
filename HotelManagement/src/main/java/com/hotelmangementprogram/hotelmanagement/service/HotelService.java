@@ -196,7 +196,7 @@ public class HotelService {
         employeeRepository.deleteById(employeeId);
         employeeLoginRepository.deleteById(employeeId);
     }
-<<<<<<< HEAD
+
     public List<Room> showVacantRooms(){
         return Receptionist.showVacantRooms(getRooms());
     }
@@ -208,16 +208,29 @@ public class HotelService {
     public void shutdown() {
 
     }
-=======
->>>>>>> c27ebb0b0e56b68bdda81e37ad4107528c753209
 
     public void completeOrder(int orderId, Long employeeId){
         Cook cook = (Cook) getEmployee(employeeId).get(); //always present
         updateEmployee(cook.completeOrder(orderId,employeeId));
     }
-<<<<<<< HEAD
-=======
+
+    /**
+     * Method that transitions the HotelManagement system to the next day.
+     */
+    public void nextDay(){
+    }
+
+    public ArrayList<Menu> showOrders(){
+        return Cook.showOrders();
+    }
 
 
->>>>>>> c27ebb0b0e56b68bdda81e37ad4107528c753209
+    public void cleanRoom(Long roomId, Long cleanerId){
+        Room room = getRoom(roomId).get();
+        Cleaner cleaner = (Cleaner) (getEmployee(cleanerId).get());
+        cleaner.cleanRoom(room);
+        createRoom(room);
+        updateEmployee(cleaner);
+
+    }
 }

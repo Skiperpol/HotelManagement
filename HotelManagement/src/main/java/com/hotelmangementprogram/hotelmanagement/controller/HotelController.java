@@ -15,6 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.DateTimeException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -257,6 +258,16 @@ public class HotelController {
         return ResponseEntity.status(HttpStatus.ACCEPTED).build();
     }
 
+    /**
+     * Method that transitions the HotelManagement system to the next day.
+     */
+    @PostMapping("/nextDay")
+    public ResponseEntity<HttpStatus> nextDay(){
+        hotelService.nextDay();
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+
     //------------------------------------ PUT REQUESTS ---------------------------------------------------
     /**
      * Creates new Employee and EmployeeLogin record in the database. Data given checked by dataValidation service.
@@ -294,6 +305,35 @@ public class HotelController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    /**
+     * Sets the parameter of the specified room to 'true' and adds a certain value
+     * to the commission field of the specified cleaner (based on the roomType).
+     *
+     * @RequestBody roomId, cleanerId - kinda self-explanatory
+     * @Results (1) Http status 400 (BAD REQUEST) when the roomId is incorrect
+     * <p>(2) Http status 400 (BAD REQUEST) when the cleanerId is incorrect </p>
+     * <p>(3) Http status 200 (OK) when everything went according to then plan d-_-b</p>
+     * @URL http://localhost:8080/hotel/room/clean
+     * @return
+     */
+    @PutMapping("/room/clean")
+    public ResponseEntity<Object> cleanRoom(@RequestBody Long roomId, Long cleanerId){
+        try {
+            dataValidation.checkRoomExists(roomId);
+        }catch (NoSuchElementException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No such room exists");
+        }
+
+        try {
+            dataValidation.checkEmployeeExists(cleanerId);
+        }catch (NoSuchElementException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No such cleaner exists");
+        }
+
+        hotelService.cleanRoom(roomId, cleanerId);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
     //------------------------------------ GET REQUESTS ---------------------------------------------------
 
     //Standard Getters to the database by ID and by all
@@ -309,13 +349,13 @@ public class HotelController {
                 .body(hotelService.getEmployee(employeeId));
     }
 
-    @GetMapping("employee/get/all")
+    @GetMapping("/employee/get/all")
     public ResponseEntity<List<Employee>> getEmployees(){
         return ResponseEntity.status((HttpStatus.OK))
                 .body(hotelService.getEmployees());
     }
 
-    @GetMapping("room/get/{roomId}")
+    @GetMapping("/room/get/{roomId}")
     public ResponseEntity<Object> getRoom(@PathVariable Long roomId){
         if(!dataValidation.checkRoomExists(roomId)){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -343,7 +383,7 @@ public class HotelController {
                 .body(hotelService.showUncleanedRooms());
     }
 
-    @GetMapping("guest/get/{guestId}")
+    @GetMapping("/guest/get/{guestId}")
     public ResponseEntity<Object> getGuest(@PathVariable Long guestId){
         try{
             dataValidation.checkGuestExists(guestId);
@@ -355,22 +395,28 @@ public class HotelController {
                 .body(hotelService.getGuest(guestId));
     }
 
-    @GetMapping("guest/get/all")
+    @GetMapping("/guest/get/all")
     public ResponseEntity<List<Guest>> getGuests(){
         return ResponseEntity.status((HttpStatus.OK))
                 .body(hotelService.getGuests());
     }
 
-    @GetMapping("date/get")
+    @GetMapping("/date/get")
     public ResponseEntity<LocalDate> getCurrentDate(){
         return ResponseEntity.status((HttpStatus.OK))
                 .body(HotelManagementApplication.currentDate);
     }
 
-    @GetMapping("balance/get")
+    @GetMapping("/balance/get")
     public ResponseEntity<Double> getBalance(){
         return ResponseEntity.status((HttpStatus.OK))
                 .body(HotelManagementApplication.balance);
+    }
+
+    @GetMapping("/order/get/all")
+    public ResponseEntity<ArrayList<Menu>> showOrders(){
+        return ResponseEntity.status((HttpStatus.OK))
+                .body(hotelService.showOrders());
     }
 
     //----------------------------------- DELETE REQUESTS ---------------------------------------------------
