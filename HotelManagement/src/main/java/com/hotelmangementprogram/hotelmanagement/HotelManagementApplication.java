@@ -9,10 +9,14 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 
+import java.io.*;
 import java.sql.SQLOutput;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
+
+import static java.lang.Double.parseDouble;
 
 @SpringBootApplication
 public class HotelManagementApplication {
@@ -25,26 +29,42 @@ public class HotelManagementApplication {
 	 * Initializes the whole HotelManagement system:
 	 * Connects to the database and loads all the necessary data.
 	 */
-	public void setUp(){
+	public static void setUp(){
 
-	}
+		try (FileReader fileReader = new FileReader("balance.txt"); Scanner scanner=new Scanner(fileReader)) {
+
+			balance = parseDouble(scanner.nextLine());
 
 
-	/**
-	 * Shuts down the whole HotelManagement system:
-	 * Saves all the data to the database and disconnects.
-	 */
-	public void shutdown(){
+		} catch (FileNotFoundException e) {
+			System.out.println("Nie znaleziono pliku do odczytu danych: " + e.getMessage());
+			e.printStackTrace();
+		} catch(IOException e) {
+			System.out.println("Błąd przy odczycie pliku: " + e.getMessage());
+			e.printStackTrace();
+		}
 
+		try (FileInputStream fileInputStream = new FileInputStream("currentDate.ser");
+			 ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream)) {
+
+			currentDate = (LocalDate) objectInputStream.readObject();
+
+		} catch (FileNotFoundException e) {
+			System.out.println("Nie znaleziono pliku do odczytu danych: " + e.getMessage());
+			e.printStackTrace();
+		} catch (IOException e) {
+			System.out.println("Błąd przy odczycie pliku: " + e.getMessage());
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			System.out.println("Nie można znaleźć klasy podczas deserializacji obiektu: " + e.getMessage());
+			e.printStackTrace();
+		}
 	}
 
 
 	public static void main(String[] args) {
 		SpringApplication.run(HotelManagementApplication.class, args);
-
-
-		HotelService hotel = new HotelService();
-		hotel.nextDay();
+		setUp();
 	}
 
 }

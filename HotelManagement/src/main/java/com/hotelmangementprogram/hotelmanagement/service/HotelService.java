@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.jackson.JacksonProperties;
 import org.springframework.stereotype.Service;
 
+import java.io.*;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -223,8 +224,36 @@ public class HotelService {
         return Cleaner.showUncleanedRooms(getRooms());
     }
 
+    /**
+     * Shuts down the whole HotelManagement system:
+     * Saves all the data to the database and disconnects.
+     */
     public void shutdown() {
+        try (FileWriter fileWriter = new FileWriter("balance.txt");
+             PrintWriter printWriter = new PrintWriter(fileWriter)) {
 
+            printWriter.println(HotelManagementApplication.balance);
+
+        } catch (FileNotFoundException e) {
+            System.out.println("Nie znaleziono pliku do zapisu danych: " + e.getMessage());
+            e.printStackTrace();
+        } catch (IOException e) {
+            System.out.println("Błąd przy zapisie pliku: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        try (FileOutputStream fileOutputStream = new FileOutputStream("currentDate.ser");
+             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream)) {
+
+            objectOutputStream.writeObject(HotelManagementApplication.currentDate);
+
+        } catch (FileNotFoundException e) {
+            System.out.println("Nie znaleziono pliku do zapisu danych: " + e.getMessage());
+            e.printStackTrace();
+        } catch(IOException e) {
+            System.out.println("Błąd przy zapisie pliku: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     public void completeOrder(int orderId, Long employeeId){
