@@ -36,6 +36,11 @@ public class Receptionist extends Employee implements Serializable {
                  .filter(Room::isRoomIsEmpty).toList();
     }
 
+    public static List<Guest> showGuestsWithDeadline(List<Guest> allGuests){
+        return allGuests.stream()
+                .filter(Guest -> Guest.getCheckOutDate().equals(HotelManagementApplication.currentDate)).toList();
+    }
+
     public void registerNewGuest()
     {
         //dodanie do bazy danych gości

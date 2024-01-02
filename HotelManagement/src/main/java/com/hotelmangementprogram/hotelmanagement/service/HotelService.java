@@ -81,6 +81,14 @@ public class HotelService {
         return guestRepository.findAll();
     }
     /**
+     * Method returns all Guest objects whose room deadline is expiring today, from the database as ArrayList
+     *
+     * @Results: (1) Returns the list of Guest objects, the list may be null.
+     **/
+    public List<Guest> getGuestsWithDeadline(){
+        return Receptionist.showGuestsWithDeadline(getGuests());
+    }
+    /**
      * Method returns a Guest object from the database as Optional type
      *
      * @param guestId Id of the guest that is to be fetched from the database
@@ -107,6 +115,15 @@ public class HotelService {
         return roomRepository.findById(roomId);
     }
     /**
+     * Method returns a Room object from the database by room number as Optional type
+     *
+     * @param roomNumber Number of the room that is to be fetched from the database
+     * @Results: (1) Returns the Room object from the database as Optional, may be null.
+     **/
+    public Optional<Room> getRoomByNumber(Long roomNumber){
+        return getRooms().stream().filter(Room -> Room.getRoomNumber().equals(roomNumber)).findFirst();
+    }
+    /**
      * Method returns the Menu from the database as ArrayList of dishes
      *
      * @Results: (1) Returns the list of all Dish pseud-objects from the database, the list may, but should not, be null.
@@ -131,7 +148,6 @@ public class HotelService {
     public Optional<EmployeeLogin> getEmployeeLogin(Long employeeId){
         return employeeLoginRepository.findById(employeeId);
     }
-
     /**
      * Method saves a Room object in the database and returns its body.
      *
@@ -215,9 +231,29 @@ public class HotelService {
     }
 
     /**
-     * Method that transitions the HotelManagement system to the next day.
+     * Method that transitions the HotelManagement system to the next day, checking paychecks and checks guests' deadlines.
      */
     public void nextDay(){
+//        HotelManagementApplication.currentDate = LocalDate.now();
+//        HotelManagementApplication.balance = 3000d;
+
+        LocalDate currentDate = HotelManagementApplication.currentDate;
+        HotelManagementApplication.currentDate = currentDate.plusDays(1);
+
+        List<Employee> employeesList = getEmployees();
+		if (currentDate.getDayOfMonth() == 11){
+			for (Employee employee:employeesList) {
+				Admin.payoutPaycheck(employee);
+			}
+		}
+
+        List<Guest> guestsList = getGuestsWithDeadline();
+		for (Guest guest:guestsList) {
+            Room roomTemp = getRoomByNumber(guest.getRoomNumber()).get();
+            HotelManagementApplication.balance += guest.getAdditionalCharges() + roomTemp.getRoomPrice();
+            roomTemp.setRoomIsEmpty(true);
+            roomTemp.setRoomIsClean(false);
+		}
     }
 
     public ArrayList<Menu> showOrders(){
