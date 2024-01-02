@@ -11,14 +11,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.yaml.snakeyaml.events.Event;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Objects;
 import java.util.Optional;
 
 @RestController
@@ -284,6 +282,7 @@ public class HotelController {
         hotelService.shutdown();
         return ResponseEntity.status(HttpStatus.OK).build();
     }
+
     @PutMapping("/order/complete")
     public ResponseEntity<Object> completeOrder(@RequestBody OrderDto orderDto, int orderId, Long employeeId){
         try {
