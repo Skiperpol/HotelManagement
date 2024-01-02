@@ -1,0 +1,77 @@
+use hotelmanagementdb;
+INSERT INTO room VALUES (null, 101, 200.0, true, true, "SINGLEROOM", null);
+INSERT INTO room VALUES (null, 102, 200.0, true, true, "SINGLEROOM", null);
+INSERT INTO room VALUES (null, 103, 200.0, true, true, "SINGLEROOM", null);
+INSERT INTO room VALUES (null, 104, 200.0, true, true, "SINGLEROOM", null);
+INSERT INTO room VALUES (null, 105, 200.0, true, true, "SINGLEROOM", null);
+INSERT INTO room VALUES (null, 106, 200.0, true, true, "SINGLEROOM", null);
+INSERT INTO room VALUES (null, 107, 200.0, true, true, "SINGLEROOM", null);
+INSERT INTO room VALUES (null, 108, 200.0, true, true, "SINGLEROOM", null);
+INSERT INTO room VALUES (null, 109, 200.0, true, true, "SINGLEROOM", null);
+INSERT INTO room VALUES (null, 110, 200.0, true, true, "SINGLEROOM", null);
+INSERT INTO room VALUES (null, 201, 350.0, true, true, "SINGLEROOM", null);
+INSERT INTO room VALUES (null, 202, 350.0, true, true, "SINGLEROOM", null);
+INSERT INTO room VALUES (null, 203, 350.0, true, true, "SINGLEROOM", null);
+INSERT INTO room VALUES (null, 204, 350.0, true, true, "SINGLEROOM", null);
+INSERT INTO room VALUES (null, 205, 350.0, true, true, "SINGLEROOM", null);
+INSERT INTO room VALUES (null, 206, 400.0, true, true, "SINGLEROOM", null);
+INSERT INTO room VALUES (null, 207, 400.0, true, true, "SINGLEROOM", null);
+INSERT INTO room VALUES (null, 208, 400.0, true, true, "SINGLEROOM", null);
+INSERT INTO room VALUES (null, 209, 400.0, true, true, "SINGLEROOM", null);
+INSERT INTO room VALUES (null, 210, 400.0, true, true, "SINGLEROOM", null);
+INSERT INTO room VALUES (null, 301, 600.0, true, true, "DOUBLEROOM", null);
+INSERT INTO room VALUES (null, 302, 600.0, true, true, "DOUBLEROOM", null);
+INSERT INTO room VALUES (null, 303, 600.0, true, true, "DOUBLEROOM", null);
+INSERT INTO room VALUES (null, 304, 600.0, true, true, "DOUBLEROOM", null);
+INSERT INTO room VALUES (null, 305, 600.0, true, true, "DOUBLEROOM", null);
+INSERT INTO room VALUES (null, 306, 750.0, true, true, "DOUBLEROOM", null);
+INSERT INTO room VALUES (null, 307, 750.0, true, true, "DOUBLEROOM", null);
+INSERT INTO room VALUES (null, 308, 750.0, true, true, "DOUBLEROOM", null);
+INSERT INTO room VALUES (null, 309, 750.0, true, true, "DOUBLEROOM", null);
+INSERT INTO room VALUES (null, 310, 750.0, true, true, "DOUBLEROOM", null);
+
+INSERT INTO menu VALUES (null, "Rosół", 7.50);
+INSERT INTO menu VALUES (null, "Pomidorowa", 6.80);
+INSERT INTO menu VALUES (null, "Kurczak curry", 12.00);
+INSERT INTO menu VALUES (null, "Spaghetti Bolognese", 9.99);
+INSERT INTO menu VALUES (null, "Sałatka Cezar", 8.50);
+INSERT INTO menu VALUES (null, "Pizza Margherita", 11.50);
+INSERT INTO menu VALUES (null, "Ryba po grecku", 10.20);
+INSERT INTO menu VALUES (null, "Kotlet schabowy", 13.30);
+INSERT INTO menu VALUES (null, "Zupa krem z brokułów", 7.80);
+INSERT INTO menu VALUES (null, "Pierogi ruskie", 8.00);
+INSERT INTO menu VALUES (null, "Filet z kurczaka", 10.50);
+INSERT INTO menu VALUES (null, "Wołowina stroganoff", 14.75);
+INSERT INTO menu VALUES (null, "Omlet", 6.20);
+INSERT INTO menu VALUES (null, "Krewetki curry", 15.90);
+INSERT INTO menu VALUES (null, "Makaron carbonara", 9.20);
+INSERT INTO menu VALUES (null, "Zapiekanka ziemniaczana", 8.75);
+INSERT INTO menu VALUES (null, "Schabowy z frytkami", 12.40);
+INSERT INTO menu VALUES (null, "Zupa pomidorowa z ryżem", 7.30);
+INSERT INTO menu VALUES (null, "Kurczak teriyaki", 11.80);
+INSERT INTO menu VALUES (null, "Ratatouille", 8.90);
+
+INSERT INTO Guest VALUES (null, 'Jan', 'Kowalski', '12345678901', '123456789', 'jan.kowalski@email.com', NULL, NULL, NULL, NULL);
+INSERT INTO Guest VALUES (null, 'Anna', 'Nowak', '23456789012', '987654321', 'anna.nowak@email.com', NULL, NULL, NULL, NULL);
+INSERT INTO Guest VALUES (null, 'Piotr', 'Wiśniewski', '34567890123', '456789012', 'piotr.wisniewski@email.com', NULL, NULL, NULL, NULL);
+INSERT INTO Guest VALUES (null, 'Maria', 'Lis', '45678901234', '789012345', 'maria.lis@email.com', NULL, NULL, NULL, NULL);
+INSERT INTO Guest VALUES (null, 'Adam', 'Zając', '56789012345', '012345678', 'adam.zajac@email.com', NULL, NULL, NULL, NULL);
+INSERT INTO Guest VALUES (null, 'Katarzyna', 'Szymańska', '67890123456', '345678901', 'katarzyna.szymanska@email.com', NULL, NULL, NULL, NULL);
+INSERT INTO Guest VALUES (null, 'Tomasz', 'Dąbrowski', '78901234567', '901234567', 'tomasz.dabrowski@email.com', NULL, NULL, NULL, NULL);
+INSERT INTO Guest VALUES (null, 'Magdalena', 'Wojciechowska', '89012345678', '123456789', 'magdalena.wojciechowska@email.com', NULL, NULL, NULL, NULL);
+INSERT INTO Guest VALUES (null, 'Marcin', 'Kamiński', '90123456789', '234567890', 'marcin.kaminski@email.com', NULL, NULL, NULL, NULL);
+INSERT INTO Guest VALUES (null, 'Karolina', 'Kowalczyk', '01234567890', '345678901', 'karolina.kowalczyk@email.com', NULL, NULL, NULL, NULL);
+
+INSERT INTO EmployeeLogin (EmpLogin, EmpPassword) VALUES ('user1', 'password');
+INSERT INTO EmployeeLogin (EmpLogin, EmpPassword) VALUES ('user2', 'password');
+INSERT INTO EmployeeLogin (EmpLogin, EmpPassword) VALUES ('user3', 'password');
+INSERT INTO EmployeeLogin (EmpLogin, EmpPassword) VALUES ('user4', 'password');
+INSERT INTO EmployeeLogin (EmpLogin, EmpPassword) VALUES ('user5', 'password');
+
+INSERT INTO Employee VALUES (null, 'Adam', 'Kowalski', '12345678901', '123456789', 'adam.kowalski@email.com', 'ADMIN', 5000.00, null, null);
+INSERT INTO Employee VALUES (null, 'Anna', 'Nowak', '23456789012', '987654321', 'anna.nowak@email.com', 'COOK', 3000.00, 10.00, null);
+INSERT INTO Employee VALUES (null, 'Piotr', 'Wiśniewski', NULL, '456789012', 'piotr.wisniewski@email.com', 'CLEANER', null, 100.00, null);
+INSERT INTO Employee VALUES (null, 'Magdalena', 'Lis', '34567890123', NULL, 'magdalena.lis@email.com', 'RECEPTIONIST', 4000.00, null, null);
+INSERT INTO Employee VALUES (null, 'Tomasz', 'Kowalczyk', '45678901234', '012345678', 'tomasz.kowalczyk@email.com', 'WAITER', null, null, 28.00);
+
+
