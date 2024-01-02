@@ -326,13 +326,13 @@ public class HotelController {
                 .body(hotelService.getRoom(roomId));
     }
 
-    @GetMapping("room/get/all")
+    @GetMapping("/room/get/all")
     public ResponseEntity<List<Room>> getRooms(){
         return ResponseEntity.status((HttpStatus.OK))
                 .body(hotelService.getRooms());
     }
 
-    @GetMapping("room/get/vacant")
+    @GetMapping("/room/get/vacant")
     public ResponseEntity<List<Room>> showVacantRooms(){
         return ResponseEntity.status((HttpStatus.OK))
                 .body(hotelService.showVacantRooms());
