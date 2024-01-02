@@ -226,7 +226,7 @@ public class HotelController {
      * Method that transitions the HotelManagement system to the next day.
      */
     @PostMapping("/nextDay")
-    public ResponseEntity<Object> nextDay(){
+    public ResponseEntity<HttpStatus> nextDay(){
         hotelService.nextDay();
         return ResponseEntity.status(HttpStatus.OK).build();
     }
@@ -274,7 +274,7 @@ public class HotelController {
      * @URL http://localhost:8080/hotel/room/clean
      * @return
      */
-    @PutMapping("room/clean")
+    @PutMapping("/room/clean")
     public ResponseEntity<Object> cleanRoom(@RequestBody Long roomId, Long cleanerId){
         try {
             dataValidation.checkRoomExists(roomId);
@@ -307,13 +307,13 @@ public class HotelController {
                 .body(hotelService.getEmployee(employeeId));
     }
 
-    @GetMapping("employee/get/all")
+    @GetMapping("/employee/get/all")
     public ResponseEntity<List<Employee>> getEmployees(){
         return ResponseEntity.status((HttpStatus.OK))
                 .body(hotelService.getEmployees());
     }
 
-    @GetMapping("room/get/{roomId}")
+    @GetMapping("/room/get/{roomId}")
     public ResponseEntity<Object> getRoom(@PathVariable Long roomId){
         if(!dataValidation.checkRoomExists(roomId)){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -323,13 +323,13 @@ public class HotelController {
                 .body(hotelService.getRoom(roomId));
     }
 
-    @GetMapping("room/get/all")
+    @GetMapping("/room/get/all")
     public ResponseEntity<List<Room>> getRooms(){
         return ResponseEntity.status((HttpStatus.OK))
                 .body(hotelService.getRooms());
     }
 
-    @GetMapping("guest/get/{guestId}")
+    @GetMapping("/guest/get/{guestId}")
     public ResponseEntity<Object> getGuest(@PathVariable Long guestId){
         try{
             dataValidation.checkGuestExists(guestId);
@@ -341,25 +341,25 @@ public class HotelController {
                 .body(hotelService.getGuest(guestId));
     }
 
-    @GetMapping("guest/get/all")
+    @GetMapping("/guest/get/all")
     public ResponseEntity<List<Guest>> getGuests(){
         return ResponseEntity.status((HttpStatus.OK))
                 .body(hotelService.getGuests());
     }
 
-    @GetMapping("date/get")
+    @GetMapping("/date/get")
     public ResponseEntity<LocalDate> getCurrentDate(){
         return ResponseEntity.status((HttpStatus.OK))
                 .body(HotelManagementApplication.currentDate);
     }
 
-    @GetMapping("balance/get")
+    @GetMapping("/balance/get")
     public ResponseEntity<Double> getBalance(){
         return ResponseEntity.status((HttpStatus.OK))
                 .body(HotelManagementApplication.balance);
     }
 
-    @GetMapping("order/get/all")
+    @GetMapping("/order/get/all")
     public ResponseEntity<ArrayList<Menu>> showOrders(){
         return ResponseEntity.status((HttpStatus.OK))
                 .body(hotelService.showOrders());

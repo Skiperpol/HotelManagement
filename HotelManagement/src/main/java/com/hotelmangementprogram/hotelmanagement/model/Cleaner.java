@@ -27,12 +27,12 @@ public class Cleaner extends Employee implements Serializable {
         paycheck=new Commision(commission);
     }
 
-    public static void cleanRoom(Room room, Cleaner cleaner){
+    public void cleanRoom(Room room){
         room.setRoomIsClean(true);
         switch(room.getRoomType()){
-            case SUITE -> cleaner.setCommission(cleaner.getCommission() + 60);
-            case DOUBLEROOM -> cleaner.setCommission(cleaner.getCommission() + 30);
-            case SINGLEROOM -> cleaner.setCommission(cleaner.getCommission() + 20);
+            case SUITE -> commission += 60;
+            case DOUBLEROOM -> commission += 30;
+            case SINGLEROOM -> commission += 20;
         }
 
     }

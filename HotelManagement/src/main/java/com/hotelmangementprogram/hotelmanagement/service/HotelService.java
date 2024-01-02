@@ -204,10 +204,9 @@ public class HotelService {
     public void cleanRoom(Long roomId, Long cleanerId){
         Room room = getRoom(roomId).get();
         Cleaner cleaner = (Cleaner) (getEmployee(cleanerId).get());
-        EmployeeLogin cleanerLogin = getEmployeeLogin(cleanerId).get();
-        Cleaner.cleanRoom(room, cleaner);
+        cleaner.cleanRoom(room);
         createRoom(room);
-        createEmployee(cleanerLogin, cleaner);
+        updateEmployee(cleaner);
 
     }
 }
