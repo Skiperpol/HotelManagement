@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.time.DateTimeException;
 import java.util.NoSuchElementException;
+
 
 @Entity(name = "COOK")
 @Getter
@@ -26,7 +28,6 @@ public class Cook extends Employee implements Serializable {
     @Column(name = "commission")
     private Float commission;
 
-
     public Cook(Long employeeId, String firstName, String lastName, String pesel, String phoneNumber, String emailAddress, Job job, Float commission, Float salary){
         super(employeeId, firstName, lastName, pesel, phoneNumber, emailAddress, job);
         this.commission = commission;
@@ -35,9 +36,10 @@ public class Cook extends Employee implements Serializable {
     }
 
 
-    public void showOrders(){
+    public static ArrayList<Menu> showOrders(){
+        return HotelManagementApplication.pendingOrders;
+        }
 
-    }
     public Cook completeOrder(int orderId, Long employeeId){
         if (commission==null)
             commission=0f;
@@ -47,3 +49,4 @@ public class Cook extends Employee implements Serializable {
         return this;
     }
 }
+
