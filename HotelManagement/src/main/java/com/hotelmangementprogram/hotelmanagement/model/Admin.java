@@ -23,7 +23,7 @@ public class Admin extends Employee implements Serializable {
     public Admin(Long employeeId, String firstName, String lastName, String pesel, String phoneNumber, String emailAddress, Job job, Float salary){
         super(employeeId, firstName, lastName, pesel, phoneNumber, emailAddress, job);
         this.salary = salary;
-        paycheck=new Salary(salary);
+        paycheck = new Salary(salary);
     }
 
     public void fire(){

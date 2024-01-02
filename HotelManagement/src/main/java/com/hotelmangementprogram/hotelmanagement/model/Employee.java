@@ -1,5 +1,6 @@
 package com.hotelmangementprogram.hotelmanagement.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hotelmangementprogram.hotelmanagement.PaycheckStrategy.Paycheck;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -21,6 +22,7 @@ public abstract class Employee extends People implements Serializable {
     @Enumerated(EnumType.STRING)
     protected Job job;
 
+    @JsonIgnore
     @Transient
     protected Paycheck paycheck;
 

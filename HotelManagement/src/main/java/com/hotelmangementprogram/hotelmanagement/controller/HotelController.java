@@ -4,6 +4,8 @@ import com.hotelmangementprogram.hotelmanagement.HotelManagementApplication;
 import com.hotelmangementprogram.hotelmanagement.model.*;
 import com.hotelmangementprogram.hotelmanagement.service.DataValidation;
 import com.hotelmangementprogram.hotelmanagement.service.HotelService;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -106,6 +108,40 @@ public class HotelController {
     //------------------------------------ POST REQUESTS ---------------------------------------------------
 
     /**
+     * checks sent employee login body (login & password).
+     *
+     * @RequestBody: EmployeeLoginDto
+     * @Result: (1) logged succesfully, allowed access to page, sent body of encapsulated class object
+     * <p></p>(2) unsuccesfull login attempt, access denied (to be implemented in front)
+     * @return (1) error message with its source and if (1) body that consists of Job param and employee ID
+     */
+    @PostMapping("/login")
+    public ResponseEntity<Object> login(@RequestBody EmployeeLoginDto employeeLoginDto) {
+        //login response body
+        @Getter
+        @AllArgsConstructor
+        class LoginResponse{
+            Job job;
+            Long empID;
+        }
+        //actual method
+        Optional<EmployeeLogin> employeeLogin = hotelService.login(
+                employeeLoginDto.getEmpLogin(),
+                employeeLoginDto.getEmpPassword()
+        );
+        if (employeeLogin.isEmpty()) { //empty Optional means invalid password or login
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Check login data");
+        }
+        //logged succesfully, returns ID and employee Job
+        Long empID = employeeLogin.get().getEmployeeId();
+        LoginResponse loginResponse = new LoginResponse(
+                hotelService.getEmployee(empID).get().getJob(), //never null because at this point there's a much in database
+                empID
+        );
+        return ResponseEntity.status(HttpStatus.OK).body(loginResponse);
+    }
+
+    /**
      * Creates new Employee and EmployeeLogin record in the database. Data given checked by dataValidation service.
      *
      * @param job Job of the employee
@@ -117,7 +153,7 @@ public class HotelController {
      * @URL: POST http://localhost:8080/hotel/employee/{job}/add
      */
     @PostMapping("/employee/{job}/add")
-    public ResponseEntity<Object> createEmployee(@PathVariable String job, @RequestBody EmployeeDto employeeDto) {
+    public ResponseEntity<Object> createEmployee(@PathVariable String job, @RequestBody EmployeeDto employeeDto){
         //Checks the validity of data
         try{
             dataValidation.checkEmployeeData(employeeDto);
@@ -252,6 +288,12 @@ public class HotelController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    @PutMapping("/shutdown")
+    public ResponseEntity<HttpStatus> shutdown() {
+        hotelService.shutdown();
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
     @PutMapping("/order/complete")
     public ResponseEntity<Object> completeOrder(@RequestBody OrderDto orderDto, int orderId, Long employeeId){
         try {
@@ -294,7 +336,7 @@ public class HotelController {
 
     //------------------------------------ GET REQUESTS ---------------------------------------------------
 
-    //Standard Getters to the database by Id and by all
+    //Standard Getters to the database by ID and by all
     @GetMapping("/employee/get/{employeeId}")
     public ResponseEntity<Object> getEmployee(@PathVariable Long employeeId){
         try{
@@ -327,6 +369,18 @@ public class HotelController {
     public ResponseEntity<List<Room>> getRooms(){
         return ResponseEntity.status((HttpStatus.OK))
                 .body(hotelService.getRooms());
+    }
+
+    @GetMapping("/room/get/vacant")
+    public ResponseEntity<List<Room>> showVacantRooms(){
+        return ResponseEntity.status((HttpStatus.OK))
+                .body(hotelService.showVacantRooms());
+    }
+
+    @GetMapping("/room/get/uncleaned")
+    public ResponseEntity<List<Room>> showUncleanedRooms(){
+        return ResponseEntity.status((HttpStatus.OK))
+                .body(hotelService.showUncleanedRooms());
     }
 
     @GetMapping("/guest/get/{guestId}")
@@ -376,6 +430,5 @@ public class HotelController {
         hotelService.deleteEmployee(employeeId);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
-
 
 }
