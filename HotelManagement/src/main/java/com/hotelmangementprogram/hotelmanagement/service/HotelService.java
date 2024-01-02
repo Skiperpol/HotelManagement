@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.*;
 
+import static java.time.temporal.ChronoUnit.DAYS;
+
 
 @Service
 @RequiredArgsConstructor
@@ -121,7 +123,7 @@ public class HotelService {
      * @Results: (1) Returns the Room object from the database as Optional, may be null.
      **/
     public Optional<Room> getRoomByNumber(Long roomNumber){
-        return getRooms().stream().filter(Room -> Room.getRoomNumber().equals(roomNumber)).findFirst();
+        return getRooms().stream().filter(Room -> Room.getRoomNumber().equals(roomNumber)).findAny();
     }
     /**
      * Method returns the Menu from the database as ArrayList of dishes
@@ -234,9 +236,6 @@ public class HotelService {
      * Method that transitions the HotelManagement system to the next day, checking paychecks and checks guests' deadlines.
      */
     public void nextDay(){
-//        HotelManagementApplication.currentDate = LocalDate.now();
-//        HotelManagementApplication.balance = 3000d;
-
         LocalDate currentDate = HotelManagementApplication.currentDate;
         HotelManagementApplication.currentDate = currentDate.plusDays(1);
 
@@ -250,9 +249,17 @@ public class HotelService {
         List<Guest> guestsList = getGuestsWithDeadline();
 		for (Guest guest:guestsList) {
             Room roomTemp = getRoomByNumber(guest.getRoomNumber()).get();
-            HotelManagementApplication.balance += guest.getAdditionalCharges() + roomTemp.getRoomPrice();
+            double totalPrice = roomTemp.getRoomPrice()*(DAYS.between(guest.getCheckInDate(), guest.getCheckOutDate()));
+            HotelManagementApplication.balance += guest.getAdditionalCharges() + totalPrice;
+            guest.setAdditionalCharges(0f);
+            guest.setCheckInDate(null);
+            guest.setCheckOutDate(null);
+            guest.setRoomNumber(null);
+            createGuest(guest);
             roomTemp.setRoomIsEmpty(true);
             roomTemp.setRoomIsClean(false);
+            roomTemp.setGuestIds("");
+            createRoom(roomTemp);
 		}
     }
 
