@@ -30,6 +30,7 @@ public class HotelController {
     private static final Long EMPTY_ID = null;
     private static final String EMPTY_IDS = "";
 
+    //------------------------------------ POST REQUESTS ---------------------------------------------------
 
     public Employee employeeForm(Long employeeId, String job, EmployeeDto employeeDto) {
         Employee employee = null;
@@ -105,8 +106,6 @@ public class HotelController {
         return employee;
     }
 
-    //------------------------------------ POST REQUESTS ---------------------------------------------------
-
     /**
      * checks sent employee login body (login & password).
      *
@@ -157,6 +156,7 @@ public class HotelController {
         //Checks the validity of data
         try{
             dataValidation.checkEmployeeData(employeeDto);
+            dataValidation.checkPersonData(employeeDto);
         } catch(IllegalArgumentException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body("Check input data");
@@ -173,6 +173,7 @@ public class HotelController {
         //Checks the validity of data
         try{
             dataValidation.checkEmployeeData(employeeDto);
+            dataValidation.checkPersonData(employeeDto);
         } catch(IllegalArgumentException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body("Check input data");
@@ -194,9 +195,12 @@ public class HotelController {
      */
     @PostMapping("/room/add")
     public ResponseEntity<Object> createRoom(@RequestBody RoomDto roomDto){
-        if (!dataValidation.checkRoomData())
+        try{
+            dataValidation.checkRoomData(roomDto);
+        }catch(IllegalArgumentException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body("Check input data");
+        }
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(hotelService.createRoom(new Room(
                         EMPTY_ID,
@@ -221,9 +225,12 @@ public class HotelController {
      */
     @PostMapping("/guest/add")
     public ResponseEntity<Object> createGuest(@RequestBody GuestDto guestDto){
-        if (!dataValidation.checkGuestData())
+        try{
+            dataValidation.checkPersonData(guestDto);
+        }catch (IllegalArgumentException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body("Check input data");
+        }
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(hotelService.createGuest(new Guest(
                         EMPTY_ID,
@@ -357,7 +364,9 @@ public class HotelController {
 
     @GetMapping("/room/get/{roomId}")
     public ResponseEntity<Object> getRoom(@PathVariable Long roomId){
-        if(!dataValidation.checkRoomExists(roomId)){
+        try{
+            dataValidation.checkRoomExists(roomId);
+        }catch (NoSuchElementException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body("Room doesn't exist");
         }
