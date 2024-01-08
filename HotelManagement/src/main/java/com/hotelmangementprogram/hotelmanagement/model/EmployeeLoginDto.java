@@ -6,7 +6,6 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class EmployeeLoginDto{
-
     private String empLogin;
     private String empPassword;
 }
