@@ -1,7 +1,6 @@
 package com.hotelmangementprogram.hotelmanagement.model;
 
 import com.hotelmangementprogram.hotelmanagement.PaycheckStrategy.Hourly;
-import com.hotelmangementprogram.hotelmanagement.PaycheckStrategy.Paycheck;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,9 +19,5 @@ public class Waiter extends Employee implements Serializable {
         super(employeeId, firstName, lastName, pesel, phoneNumber, emailAddress, job);
         this.hourlyWage = hourlyWage;
         paycheck=new Hourly(hourlyWage,8f);
-    }
-
-    public void acceptOrder() {
-
     }
 }

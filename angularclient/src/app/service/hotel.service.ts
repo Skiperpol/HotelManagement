@@ -7,7 +7,7 @@ import { Menu } from '../model/menu/menu';
 import { OrderDto } from '../model/orderDto/orderDto';
 import { EmployeeLoginDto } from '../model/employeeLoginDto/employeeLoginDto';
 import { GuestAssignDto } from '../model/guestAssignDto/guestAssignDto';
-import { Observable, catchError, map} from 'rxjs';
+import { Observable, map} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -17,14 +17,8 @@ export class HotelService {
   public mainUrl = 'http://localhost:8080/hotel'
   constructor(private http: HttpClient) {}
 
-  public login(loginDto: EmployeeLoginDto): Observable<any>{
-    return this.http.post<any>(this.mainUrl +'/login', loginDto).pipe(
-      map(
-        (response: Response) =>{
-           console.log(response.json);
-        }
-      )
-    );
+  public login(loginDto: EmployeeLoginDto): Observable<{job: string, empID: any}>{
+     return this.http.post<{job: string, empID: any}>(this.mainUrl +'/login', loginDto);
   }
 
   public saveEmployee(employee: Employee): Observable<any>{
