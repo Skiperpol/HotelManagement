@@ -9,9 +9,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.DateTimeException;
 import java.time.LocalDate;
@@ -120,7 +118,7 @@ public class HotelController {
         @Getter
         @AllArgsConstructor
         class LoginResponse{
-            Job job;
+            String job;
             Long empID;
         }
         //actual method
@@ -134,7 +132,7 @@ public class HotelController {
         //logged succesfully, returns ID and employee Job
         Long empID = employeeLogin.get().getEmployeeId();
         LoginResponse loginResponse = new LoginResponse(
-                hotelService.getEmployee(empID).get().getJob(), //never null because at this point there's a much in database
+                String.valueOf(hotelService.getEmployee(empID).get().getJob()).toLowerCase(), //never null because at this point there's a much in database
                 empID
         );
         return ResponseEntity.status(HttpStatus.OK).body(loginResponse);

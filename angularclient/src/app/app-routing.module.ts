@@ -14,8 +14,10 @@ const routes: Routes = [
   { path: 'cook', component: CookPageComponent },
   { path: 'home', component: HomePageComponent },
   { path: 'login', component: LoginPageComponent },
+  { path: '', component: LoginPageComponent},
   { path: 'receptionist', component: ReceptionistPageComponent },
   { path: 'waiter', component: WaiterPageComponent },
+  { path: '**', redirectTo: ''}
 ];
 
 @NgModule({
