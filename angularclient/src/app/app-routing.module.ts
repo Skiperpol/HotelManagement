@@ -7,6 +7,7 @@ import { HomePageComponent } from './home-page/home-page.component';
 import { LoginPageComponent } from './login-page/login-page.component';
 import { WaiterPageComponent } from './waiter-page/waiter-page.component';
 import { ReceptionistPageComponent } from './receptionist-page/receptionist-page.component';
+import { PersonalDataComponent } from './personal-data/personal-data.component';
 
 const routes: Routes = [
   { path: 'admin', component: AdminPageComponent },
@@ -17,6 +18,7 @@ const routes: Routes = [
   { path: '', component: LoginPageComponent},
   { path: 'receptionist', component: ReceptionistPageComponent },
   { path: 'waiter', component: WaiterPageComponent },
+  { path: 'personal-data', component: PersonalDataComponent },
   { path: '**', redirectTo: ''}
 ];
 
