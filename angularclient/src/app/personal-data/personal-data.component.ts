@@ -21,7 +21,7 @@ export class PersonalDataComponent implements OnInit{
     commission: 0,
     hourlyWage: 0
   };
-  public employeeId: string = "3";
+  public employeeId: number = 0;
 
   constructor(private hotelService: HotelService, private router: Router){
     console.log(this.router.getCurrentNavigation()?.extras.state);
@@ -29,17 +29,15 @@ export class PersonalDataComponent implements OnInit{
   
   ngOnInit(): void {
     this.getEmployee();
-    if (this.router.getCurrentNavigation()?.extras.state != null){
-      this.employeeId = String(this.router.getCurrentNavigation()?.extras.state);
-    }
-    else{
-      this.employeeId = "3";
+    const state = this.router.getCurrentNavigation()?.extras.state;
+    if (state) {
+      this.employeeId = state['employeeId'];
     }
     console.log("empId: " + this.employeeId);
   }
   
   public getEmployee(): void {
-    this.hotelService.getEmployee(this.employeeId).subscribe(
+    this.hotelService.getEmployee(String(this.employeeId)).subscribe(
       (employee: Employee) => {
         confirm("Employee found");
         this.employee = employee;
