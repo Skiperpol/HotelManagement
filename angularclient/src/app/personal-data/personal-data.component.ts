@@ -21,26 +21,23 @@ export class PersonalDataComponent implements OnInit{
     commission: 0,
     hourlyWage: 0
   };
-  public employeeId: number = 0;
 
   constructor(private hotelService: HotelService, private router: Router){
-    console.log(this.router.getCurrentNavigation()?.extras.state);
+    if(this.router.getCurrentNavigation()?.extras.state == undefined)
+      router.navigateByUrl('login');
   }
-  
+  public employeeId = {id: ""};
   ngOnInit(): void {
+    this.employeeId = history.state;
+    console.log(this.employeeId.id);
     this.getEmployee();
-    const state = this.router.getCurrentNavigation()?.extras.state;
-    if (state) {
-      this.employeeId = state['employeeId'];
-    }
-    console.log("empId: " + this.employeeId);
   }
   
   public getEmployee(): void {
-    this.hotelService.getEmployee(String(this.employeeId)).subscribe(
+    this.hotelService.getEmployee(this.employeeId.id).subscribe(
       (employee: Employee) => {
-        confirm("Employee found");
         this.employee = employee;
+        confirm("Employee found");
       },
       (error) => {
         let errorMessageJSON: string = JSON.stringify(error);
@@ -50,6 +47,7 @@ export class PersonalDataComponent implements OnInit{
         confirm(errorMessage);
       }
     )
+
   }
 
 }

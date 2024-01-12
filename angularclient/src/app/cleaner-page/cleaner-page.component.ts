@@ -8,16 +8,18 @@ import { Router } from '@angular/router';
 })
 export class CleanerPageComponent implements OnInit{
   constructor(private router: Router){
-    console.log("CLEANER_PAGE_ID " + this.router.getCurrentNavigation()?.extras.state);
+    if(this.router.getCurrentNavigation()?.extras.state == undefined)
+      router.navigateByUrl('login');
   }
-  public employeeId: number = 1;
+
+  public employeeId = {id: ""};
   ngOnInit(): void {
     this.employeeId = history.state;
-    console.log(this.employeeId);
+    console.log(this.employeeId.id);
   }
 
   public showPersonalData(): void {
-    this.router.navigateByUrl("/personal-data", {state: {employeeId: this.employeeId}});
+    this.router.navigateByUrl("/personal-data", {state: {id: this.employeeId.id}});
   }
 
 
