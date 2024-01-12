@@ -8,11 +8,12 @@ import { Router } from '@angular/router';
 })
 export class CleanerPageComponent implements OnInit{
   constructor(private router: Router){
-    console.log(this.router.getCurrentNavigation()?.extras.state);
+    if(this.router.getCurrentNavigation()?.extras.state == undefined)
+      router.navigateByUrl('login');
   }
-  public employeeId: number = 1;
+  public employeeId: any;
   ngOnInit(): void {
     this.employeeId = history.state;
-    console.log(this.employeeId);
+    console.log(this.employeeId.id);
   }
 }

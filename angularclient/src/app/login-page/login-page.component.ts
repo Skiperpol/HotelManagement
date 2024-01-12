@@ -26,7 +26,7 @@ export class LoginPageComponent {
     this.hotelService.login(this.loginDto).subscribe(
       (results: {job: string, empID: any}) => {
         confirm("Logging in successfull. Welcome " + results?.job + " " + results?.empID);
-        this.router.navigateByUrl("/" + results.job, {state: results.empID});
+        this.router.navigateByUrl("/" + results.job, {state: {id: results.empID}});
       },
       (error) => {
         let errorMessageJSON: string = JSON.stringify(error);
