@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { HotelService } from '../service/hotel.service';
+import { Room } from '../model/room/room';
 import { Router } from '@angular/router';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-cleaner-page',
@@ -7,7 +10,11 @@ import { Router } from '@angular/router';
   styleUrls: ['./cleaner-page.component.css']
 })
 export class CleanerPageComponent implements OnInit{
-  constructor(private router: Router){
+  public rooms: Room[] = [];
+  public displayUncleanedRooms: boolean = false;
+  public roomToCleanId: number = 0;
+    
+  constructor(private hotelService: HotelService, private router: Router){
     if(this.router.getCurrentNavigation()?.extras.state == undefined)
       router.navigateByUrl('login');
   }
@@ -18,9 +25,36 @@ export class CleanerPageComponent implements OnInit{
     console.log(this.employeeId.id);
   }
 
+  // 👩‍🏭👩‍🏭
   public showPersonalData(): void {
     this.router.navigateByUrl("/personal-data", {state: {id: this.employeeId.id}});
   }
 
+
+  // 🤢🤮
+  public showUncleanedRooms(): void {
+    this.hotelService.getUncleanedRooms().subscribe(
+      (rooms: Room[] ) => {
+        this.rooms = rooms;
+        this.displayUncleanedRooms = true;
+      },
+      (error) => {
+        let errorMessageJSON: string = JSON.stringify(error);
+        let key = "error";
+        let index = errorMessageJSON.indexOf(key);
+        let errorMessage = errorMessageJSON.substring(index, errorMessageJSON.length);
+        confirm(errorMessage);
+      }
+    )
+  }
+
+  // 🧹🧹
+  onSubmit(form: NgForm){
+    this.hotelService.cleanRoom(Number(this.employeeId.id), this.roomToCleanId).subscribe(
+      (response) => { // CONFIRMING DOES NOT WORK - ALWAYS DISPLAYS AN ERROR!
+      },(error) => {
+      }
+      )
+  }
 
 }

@@ -1,2 +1,28 @@
 <p>cleaner-page works!</p>
 <button (click)="showPersonalData()">Dane osobowe</button>
+<button (click)="showUncleanedRooms()">Pokaz nieposprzatane pokoje</button>
+<div *ngIf="displayUncleanedRooms">
+    <div *ngFor="let room of rooms">
+        <!-- Display properties of the room object -->
+        <p>Room ID: {{room.roomId}}</p>
+        <p>Room Status: {{room.roomIsClean}}</p>
+        <!-- Add more properties as needed -->
+    </div>
+</div>
+
+<h1>Posprzataj wybrany pokoj</h1>
+<form #cleanRoomForm="ngForm" (ngSubmit)="onSubmit(cleanRoomForm)">
+    <div class="form-group">
+       <label for="roomId">roomId:</label>
+       <input type="text" [(ngModel)]="roomToCleanId"
+           class="form-control"
+           id="roomId"
+           name="roomId"
+           placeholder="roomId"
+           required #login="ngModel">
+    </div>
+    <div class="center">
+       <button type="submit" id="submitBtn" [disabled]="!cleanRoomForm.valid">Posprzataj</button>
+    </div>
+   </form>
+   
