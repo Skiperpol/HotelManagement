@@ -32,12 +32,12 @@ export class PersonalDataComponent implements OnInit{
     console.log(this.employeeId.id);
     this.getEmployee();
   }
-  
+
   public getEmployee(): void {
     this.hotelService.getEmployee(this.employeeId.id).subscribe(
       (employee: Employee) => {
         this.employee = employee;
-        confirm("Employee found");
+         ("Employee found");
       },
       (error) => {
         let errorMessageJSON: string = JSON.stringify(error);
