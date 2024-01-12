@@ -51,11 +51,11 @@ export class HotelService {
     );
   }
 
-  public acceptOrder(order: OrderDto): Observable<any>{
-    return this.http.post<any>(this.mainUrl +'/waiter/accept', order).pipe(
+  public acceptOrder(orderDto: OrderDto): Observable<any>{
+    return this.http.post<any>(this.mainUrl +'/waiter/accept', orderDto).pipe(
       map(
         (response: Response) =>{
-           console.log(response.json);
+           console.log(response);
         }
       )
     );
