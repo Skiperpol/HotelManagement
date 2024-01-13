@@ -3,6 +3,7 @@ import { HotelService } from '../service/hotel.service';
 import { Room } from '../model/room/room';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
+import { HttpStatusCode } from '@angular/common/http';
 
 @Component({
   selector: 'app-cleaner-page',
@@ -10,6 +11,7 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./cleaner-page.component.css']
 })
 export class CleanerPageComponent implements OnInit{
+  public errorMessage = "";
   public rooms: Room[] = [];
   public displayUncleanedRooms: boolean = false;
   public roomToCleanId: number = 0;
@@ -51,8 +53,15 @@ export class CleanerPageComponent implements OnInit{
   // 🧹🧹
   onSubmit(form: NgForm){
     this.hotelService.cleanRoom(Number(this.employeeId.id), this.roomToCleanId).subscribe(
-      (response) => { // CONFIRMING DOES NOT WORK - ALWAYS DISPLAYS AN ERROR!
-      },(error) => {
+      (response: HttpStatusCode.Ok) => {
+        confirm('Posprzatano pokoj!') // Nie dziala ten confirm
+      }, 
+      (error) => {
+        let errorMessageJSON: string = JSON.stringify(error);
+        let key = "error";
+        let index = errorMessageJSON.indexOf(key);
+        this.errorMessage = errorMessageJSON.substring(index, errorMessageJSON.length);
+        confirm(this.errorMessage);
       }
       )
   }
