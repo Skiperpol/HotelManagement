@@ -103,7 +103,7 @@ export class HotelService {
   }
 
   public getCurrentDate(): Observable<string>{
-    return this.http.get<string>(this.mainUrl+ '/data/get');
+    return this.http.get<string>(this.mainUrl+ '/date/get');
   }
 
   public getBalance(): Observable<number>{

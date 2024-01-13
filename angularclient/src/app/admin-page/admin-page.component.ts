@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import {Employee} from "../model/employee/employee";
 import {HotelService} from "../service/hotel.service";
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-admin-page',
@@ -9,6 +10,11 @@ import {HotelService} from "../service/hotel.service";
   styleUrls: ['./admin-page.component.css']
 })
 export class AdminPageComponent implements OnInit{
+  public employeeToFireId = "";
+  public hotelBalance = 0;
+  public currentDate = "";
+
+
   constructor(private router: Router, private hotelService: HotelService){
     if(this.router.getCurrentNavigation()?.extras.state == undefined)
       router.navigateByUrl('login');
@@ -33,8 +39,10 @@ export class AdminPageComponent implements OnInit{
       }
     )
   }
-  public fire(employeeId: string):void{
-    this.hotelService.deleteEmployee(employeeId).subscribe(
+
+
+  onSubmitFireEmployee(form: NgForm){
+    this.hotelService.deleteEmployee(this.employeeToFireId).subscribe(
       response => {
         confirm("pomyślnie usunięto pracownika z bazy danych")
       },
@@ -47,4 +55,35 @@ export class AdminPageComponent implements OnInit{
       }
     )
   }
-}
+
+  public getHotelInfo(): void{
+    this.hotelService.getCurrentDate().subscribe(
+      (date: string) => {
+        this.currentDate = date;
+      },
+      (error: any) => {
+        let errorMessageJSON: string = JSON.stringify(error);
+        let key = "error";
+        let index = errorMessageJSON.indexOf(key);
+        let errorMessage = errorMessageJSON.substring(index, errorMessageJSON.length);
+        confirm(errorMessage);
+      }
+    )
+    this.hotelService.getBalance().subscribe(
+      (balance: number) => {
+        this.hotelBalance = balance;
+      }
+      ,(error: any) => {
+        let errorMessageJSON: string = JSON.stringify(error);
+        let key = "error";
+        let index = errorMessageJSON.indexOf(key);
+        let errorMessage = errorMessageJSON.substring(index, errorMessageJSON.length);
+        confirm(errorMessage);
+      }
+    )
+    }
+
+  }
+
+
+
