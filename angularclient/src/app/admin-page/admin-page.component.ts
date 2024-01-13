@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import {Employee} from "../model/employee/employee";
+import {HotelService} from "../service/hotel.service";
 
 @Component({
   selector: 'app-admin-page',
@@ -7,7 +9,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./admin-page.component.css']
 })
 export class AdminPageComponent implements OnInit{
-  constructor(private router: Router){
+  constructor(private router: Router, private hotelService: HotelService){
     if(this.router.getCurrentNavigation()?.extras.state == undefined)
       router.navigateByUrl('login');
   }
@@ -15,5 +17,34 @@ export class AdminPageComponent implements OnInit{
   ngOnInit(): void {
     this.employeeId = history.state;
     console.log(this.employeeId.id);
+  }
+
+  public hire(employee: Employee):void{
+    this.hotelService.saveEmployee(employee).subscribe(
+      response => {
+        confirm("pomyślnie dodano pracownika do bazy danych")
+      },
+      error=>{
+        let errorMessageJSON: string = JSON.stringify(error);
+        let key = "error";
+        let index = errorMessageJSON.indexOf(key);
+        let errorMessage = errorMessageJSON.substring(index, errorMessageJSON.length);
+        confirm(errorMessage);
+      }
+    )
+  }
+  public fire(employeeId: string):void{
+    this.hotelService.deleteEmployee(employeeId).subscribe(
+      response => {
+        confirm("pomyślnie usunięto pracownika z bazy danych")
+      },
+      error=>{
+        let errorMessageJSON: string = JSON.stringify(error);
+        let key = "error";
+        let index = errorMessageJSON.indexOf(key);
+        let errorMessage = errorMessageJSON.substring(index, errorMessageJSON.length);
+        confirm(errorMessage);
+      }
+    )
   }
 }

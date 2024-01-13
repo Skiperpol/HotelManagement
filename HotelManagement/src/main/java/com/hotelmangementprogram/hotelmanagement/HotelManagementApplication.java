@@ -21,6 +21,8 @@ import static java.lang.Double.parseDouble;
 @SpringBootApplication
 public class HotelManagementApplication {
 	public static ArrayList<Menu> pendingOrders = new ArrayList<>();
+	static Menu order1 = new Menu(1L,"ryba",3f);
+
 	public static double balance;
 	public static LocalDate currentDate;
 
@@ -65,6 +67,8 @@ public class HotelManagementApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(HotelManagementApplication.class, args);
 		setUp();
+		pendingOrders.add(order1);
+		System.out.println(pendingOrders.get(0).getDishName());
 	}
 
 }
