@@ -1,4 +1,4 @@
 export interface OrderDto {
-    guestIds: string;
+    guestId: string;
     dishIds: string;   
 }
