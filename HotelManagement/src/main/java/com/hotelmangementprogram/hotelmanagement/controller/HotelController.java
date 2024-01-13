@@ -9,9 +9,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.DateTimeException;
 import java.time.LocalDate;
@@ -30,6 +28,7 @@ public class HotelController {
     private static final Long EMPTY_ID = null;
     private static final String EMPTY_IDS = "";
 
+    //------------------------------------ POST REQUESTS ---------------------------------------------------
 
     public Employee employeeForm(Long employeeId, String job, EmployeeDto employeeDto) {
         Employee employee = null;
@@ -105,13 +104,11 @@ public class HotelController {
         return employee;
     }
 
-    //------------------------------------ POST REQUESTS ---------------------------------------------------
-
     /**
      * checks sent employee login body (login & password).
      *
      * @RequestBody: EmployeeLoginDto
-     * @Result: (1) logged succesfully, allowed access to page, sent body of encapsulated class object
+     * @Results: (1) logged succesfully, allowed access to page, sent body of encapsulated class object
      * <p></p>(2) unsuccesfull login attempt, access denied (to be implemented in front)
      * @return (1) error message with its source and if (1) body that consists of Job param and employee ID
      */
@@ -121,7 +118,7 @@ public class HotelController {
         @Getter
         @AllArgsConstructor
         class LoginResponse{
-            Job job;
+            String job;
             Long empID;
         }
         //actual method
@@ -135,7 +132,7 @@ public class HotelController {
         //logged succesfully, returns ID and employee Job
         Long empID = employeeLogin.get().getEmployeeId();
         LoginResponse loginResponse = new LoginResponse(
-                hotelService.getEmployee(empID).get().getJob(), //never null because at this point there's a much in database
+                String.valueOf(hotelService.getEmployee(empID).get().getJob()).toLowerCase(), //never null because at this point there's a much in database
                 empID
         );
         return ResponseEntity.status(HttpStatus.OK).body(loginResponse);
@@ -157,31 +154,18 @@ public class HotelController {
         //Checks the validity of data
         try{
             dataValidation.checkEmployeeData(employeeDto);
+            dataValidation.checkPersonData(employeeDto);
         } catch(IllegalArgumentException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body("Check input data");
         }
         //Data is valid, creates new record in the database
         Employee newEmployee = employeeForm(EMPTY_ID, job, employeeDto);
-        newEmployee.setJob(Enum.valueOf(Job.class, job.toUpperCase())); //it is never null as a wrong job in request will not get past data validation
+        newEmployee.setJob(Enum.valueOf(Job.class, job.toUpperCase()));
         return ResponseEntity.status(HttpStatus.CREATED).body(newEmployee);
     }
 
 
-    @PostMapping("/employee/{job}/edit")
-    public ResponseEntity<Object> editEmployee(Long employeeId, @PathVariable String job, @RequestBody EmployeeDto employeeDto) {
-        //Checks the validity of data
-        try{
-            dataValidation.checkEmployeeData(employeeDto);
-        } catch(IllegalArgumentException e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("Check input data");
-        }
-        //Data is valid, creates new record in the database
-        Employee newEmployee = employeeForm(employeeId,job,employeeDto);
-        newEmployee.setJob(Enum.valueOf(Job.class, job.toUpperCase())); //it is never null as a wrong job in request will not get past data validation
-        return ResponseEntity.status(HttpStatus.CREATED).body(newEmployee);
-    }
     /**
      * Creates new Room record in the database. Data given checked by dataValidation service.
      *
@@ -194,9 +178,12 @@ public class HotelController {
      */
     @PostMapping("/room/add")
     public ResponseEntity<Object> createRoom(@RequestBody RoomDto roomDto){
-        if (!dataValidation.checkRoomData())
+        try{
+            dataValidation.checkRoomData(roomDto);
+        }catch(IllegalArgumentException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body("Check input data");
+        }
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(hotelService.createRoom(new Room(
                         EMPTY_ID,
@@ -208,7 +195,6 @@ public class HotelController {
                         EMPTY_IDS
                 )));
     }
-
     /**
      * Creates new Guest record in the database. Data given checked by dataValidation service.
      *
@@ -221,9 +207,12 @@ public class HotelController {
      */
     @PostMapping("/guest/add")
     public ResponseEntity<Object> createGuest(@RequestBody GuestDto guestDto){
-        if (!dataValidation.checkGuestData())
+        try{
+            dataValidation.checkPersonData(guestDto);
+        }catch (IllegalArgumentException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body("Check input data");
+        }
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(hotelService.createGuest(new Guest(
                         EMPTY_ID,
@@ -240,7 +229,7 @@ public class HotelController {
     }
 
     /**
-     * Creates new Employee and EmployeeLogin record in the database. Data given checked by dataValidation service.
+     * Adds new order to the pending orders list. Data given checked by dataValidation service.
      *
      * @RequestBody: OrderDto data of the pending order
      * @Results: (1) Database and run-time pending order list updated, returns Http status 202 (ACCEPTED)
@@ -268,6 +257,7 @@ public class HotelController {
     }
 
 
+
     //------------------------------------ PUT REQUESTS ---------------------------------------------------
     /**
      * Creates new Employee and EmployeeLogin record in the database. Data given checked by dataValidation service.
@@ -288,20 +278,21 @@ public class HotelController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @PutMapping("/shutdown")
-    public ResponseEntity<HttpStatus> shutdown() {
-        hotelService.shutdown();
-        return ResponseEntity.status(HttpStatus.OK).build();
-    }
-
-    @PutMapping("/order/complete")
-    public ResponseEntity<Object> completeOrder(@RequestBody OrderDto orderDto, int orderId, Long employeeId){
+    @PutMapping("/order/{orderId}/complete")
+    public ResponseEntity<Object> completeOrder(@RequestBody Long employeeId, @PathVariable int orderId){
         try {
-            dataValidation.checkOrderData(orderDto);
-        }catch (IllegalArgumentException | DateTimeException | NoSuchElementException ex){
+            dataValidation.checkEmployeeExists(employeeId);
+            HotelManagementApplication.pendingOrders.get(orderId-1);
+        }catch (IndexOutOfBoundsException | NoSuchElementException ex){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Check order ID");
         }
         hotelService.completeOrder(orderId,employeeId);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @PutMapping("/shutdown")
+    public ResponseEntity<HttpStatus> shutdown() {
+        hotelService.shutdown();
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
@@ -309,15 +300,15 @@ public class HotelController {
      * Sets the parameter of the specified room to 'true' and adds a certain value
      * to the commission field of the specified cleaner (based on the roomType).
      *
-     * @RequestBody roomId, cleanerId - kinda self-explanatory
+     * @RequestBody:  cleanerId
      * @Results (1) Http status 400 (BAD REQUEST) when the roomId is incorrect
      * <p>(2) Http status 400 (BAD REQUEST) when the cleanerId is incorrect </p>
      * <p>(3) Http status 200 (OK) when everything went according to then plan d-_-b</p>
-     * @URL http://localhost:8080/hotel/room/clean
-     * @return
+     * @URL:  http://localhost:8080/hotel/room/{roomId}/clean
+     *
      */
-    @PutMapping("/room/clean")
-    public ResponseEntity<Object> cleanRoom(@RequestBody Long roomId, Long cleanerId){
+    @PutMapping("/room/{roomId}/clean")
+    public ResponseEntity<Object> cleanRoom(@PathVariable Long roomId, @RequestBody Long cleanerId){
         try {
             dataValidation.checkRoomExists(roomId);
         }catch (NoSuchElementException e){
@@ -332,6 +323,23 @@ public class HotelController {
 
         hotelService.cleanRoom(roomId, cleanerId);
         return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @PutMapping("/employee/{job}/{employeeId}/update")
+    public ResponseEntity<Object> updateEmployee(@PathVariable Long employeeId, @PathVariable String job, @RequestBody EmployeeDto employeeDto) {
+        //Checks the validity of data
+        try{
+            dataValidation.checkEmployeeExists(employeeId);
+            dataValidation.checkEmployeeData(employeeDto);
+            dataValidation.checkPersonData(employeeDto);
+        } catch(IllegalArgumentException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Check input data");
+        }
+        //Data is valid, creates new record in the database
+        Employee newEmployee = employeeForm(employeeId,job,employeeDto);
+        newEmployee.setJob(Enum.valueOf(Job.class, job.toUpperCase()));
+        return ResponseEntity.status(HttpStatus.CREATED).body(newEmployee);
     }
 
     //------------------------------------ GET REQUESTS ---------------------------------------------------
@@ -357,7 +365,9 @@ public class HotelController {
 
     @GetMapping("/room/get/{roomId}")
     public ResponseEntity<Object> getRoom(@PathVariable Long roomId){
-        if(!dataValidation.checkRoomExists(roomId)){
+        try{
+            dataValidation.checkRoomExists(roomId);
+        }catch (NoSuchElementException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body("Room doesn't exist");
         }

@@ -12,6 +12,8 @@ import { ReceptionistPageComponent } from './receptionist-page/receptionist-page
 import { WaiterPageComponent } from './waiter-page/waiter-page.component';
 import { PersonalDataComponent } from './personal-data/personal-data.component';
 import { HomePageComponent } from './home-page/home-page.component';
+import { FormsModule } from '@angular/forms';
+import { HttpBackend, HttpClient, HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -28,7 +30,9 @@ import { HomePageComponent } from './home-page/home-page.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
