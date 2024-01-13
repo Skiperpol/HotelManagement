@@ -1,2 +1,20 @@
 <p>cook-page works!</p>
 <p>{{employeeId.id}}</p>
+<h1>Ukoncz zamowienie</h1>
+<form #completeOrderForm="ngForm" (ngSubmit)="onSubmitCompleteOrder(completeOrderForm)">
+  <div class="form-group">
+    <label for="orderId">roomId:</label>
+    <input type="text" [(ngModel)]="orderId"
+           class="form-control"
+           id="orderId"
+           name="orderId"
+           placeholder="orderId"
+           required #login="ngModel">
+  </div>
+  <div class="center">
+    <button type="submit" id="submitBtn" [disabled]="!completeOrderForm.valid">Ukoncz zamowienie</button>
+  </div>
+  <div>
+    <button (click)="showOrders()">Pokaż zamówienia</button>
+  </div>
+</form>
