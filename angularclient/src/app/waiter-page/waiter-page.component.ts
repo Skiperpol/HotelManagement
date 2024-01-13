@@ -36,7 +36,7 @@ export class WaiterPageComponent implements OnInit{
 
   onSubmit(form: NgForm){
     this.hotelService.acceptOrder(this.orderDto).subscribe(
-      (Response: any) => {
+      (Response: HttpStatusCode.Accepted) => {
         confirm('Order accepted successfully');
       },
       (error) => {
