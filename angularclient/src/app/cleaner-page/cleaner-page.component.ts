@@ -11,9 +11,16 @@ export class CleanerPageComponent implements OnInit{
     if(this.router.getCurrentNavigation()?.extras.state == undefined)
       router.navigateByUrl('login');
   }
-  public employeeId: any;
+
+  public employeeId = {id: ""};
   ngOnInit(): void {
     this.employeeId = history.state;
     console.log(this.employeeId.id);
   }
+
+  public showPersonalData(): void {
+    this.router.navigateByUrl("/personal-data", {state: {id: this.employeeId.id}});
+  }
+
+
 }

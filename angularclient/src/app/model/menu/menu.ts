@@ -1,5 +1,5 @@
 export interface Menu {
-    roomId: number;
+    dishId: number;
     dishName: string;
     dishPrice: number;   
 }
