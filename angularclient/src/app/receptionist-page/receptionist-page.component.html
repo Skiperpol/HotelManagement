@@ -3,3 +3,12 @@
 <div>
   <button (click)="showVacantRooms()">Pokaż puste pokoje</button>
 </div>
+<div *ngIf="displayVacantRooms">
+  <div *ngFor="let room of vacantRooms">
+    <!-- Display properties of the room object -->
+    <p>Room ID: {{room.roomId}}</p>
+    <p>Room Status: {{room.roomIsClean}}</p>
+    <!-- Add more properties as needed -->
+  </div>
+</div>
+

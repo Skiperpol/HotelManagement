@@ -17,6 +17,8 @@ export class ReceptionistPageComponent implements OnInit{
   public vacantRooms: Room[] = [];
   public displayVacantRooms: boolean = false;
 
+
+
   constructor(private router: Router, private hotelService: HotelService){
     if(this.router.getCurrentNavigation()?.extras.state == undefined)
       router.navigateByUrl('login');
@@ -55,12 +57,12 @@ export class ReceptionistPageComponent implements OnInit{
       }
     )
   }
-  public showVacantRooms():void{
+  public showVacantRooms():void {
     this.hotelService.getVacantRooms().subscribe(
       (rooms: Room[] ) => {
         console.log("pokazano")
         this.vacantRooms = rooms;
-        this.displayVacantRooms = true;
+
       },
       (error) => {
         let errorMessageJSON: string = JSON.stringify(error);

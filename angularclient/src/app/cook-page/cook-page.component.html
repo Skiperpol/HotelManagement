@@ -3,7 +3,7 @@
 <h1>Ukoncz zamowienie</h1>
 <form #completeOrderForm="ngForm" (ngSubmit)="onSubmitCompleteOrder(completeOrderForm)">
   <div class="form-group">
-    <label for="orderId">roomId:</label>
+    <label for="orderId">dishId:</label>
     <input type="text" [(ngModel)]="orderId"
            class="form-control"
            id="orderId"
@@ -15,6 +15,6 @@
     <button type="submit" id="submitBtn" [disabled]="!completeOrderForm.valid">Ukoncz zamowienie</button>
   </div>
   <div>
-    <button (click)="showOrders()">Pokaż zamówienia</button>
+    <button (click)="showOrders()">Show Orders</button>
   </div>
 </form>
