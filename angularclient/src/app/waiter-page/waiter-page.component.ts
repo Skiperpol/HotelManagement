@@ -30,7 +30,6 @@ export class WaiterPageComponent implements OnInit{
   ngOnInit(): void {
     this.employeeId = history.state;
     console.log(this.employeeId.id);
-    this.showOrders();
   }
 
   public showPersonalData(): void {

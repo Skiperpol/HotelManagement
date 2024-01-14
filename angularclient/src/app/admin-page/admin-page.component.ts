@@ -34,7 +34,7 @@ export class AdminPageComponent implements OnInit{
 
   public hire():void{
     this.hotelService.saveEmployee(this.employee).subscribe(
-      (response: {employee: any}) => {
+      (employee: Employee) => {
         confirm("pomyślnie dodano pracownika " +  this.employee.job + " do bazy danych. ID: " + this.employee.personId)
       },
       error=>{
