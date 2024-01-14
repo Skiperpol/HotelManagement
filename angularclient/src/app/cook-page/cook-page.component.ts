@@ -51,12 +51,11 @@ export class CookPageComponent implements OnInit{
     this.hotelService.showOrders().subscribe(
 
       response => {
-        console.log("pokazano")
         this.orderList = response;
         this.displayOrders = true;
       },
       error => {
-        confirm("podano zły numer zamówienia")
+        confirm("Wrong number")
       }
     )
   }
