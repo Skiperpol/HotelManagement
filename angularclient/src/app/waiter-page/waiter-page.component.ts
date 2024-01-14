@@ -48,17 +48,6 @@ export class WaiterPageComponent implements OnInit{
       });
   }
 
-  public showOrders(): void {
-    this.hotelService.showOrders().subscribe(
-      (orders: Menu[]) => {
-        this.orders = orders;
-      },
-      (error) => {
-        console.error('Error fetching orders:', error);
-      }
-    )
-  }
 
-  
 
 }
