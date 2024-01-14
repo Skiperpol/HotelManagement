@@ -6,6 +6,8 @@ import {GuestAssignDto} from "../model/guestAssignDto/guestAssignDto";
 import {resolve} from "@angular/compiler-cli";
 import {Guest} from "../model/guest/guest";
 import {Room} from "../model/room/room";
+import { NgForm } from '@angular/forms';
+import { GuestDto } from '../model/guestDto/guestDto';
 
 @Component({
   selector: 'app-receptionist-page',
@@ -16,6 +18,13 @@ export class ReceptionistPageComponent implements OnInit{
 
   public vacantRooms: Room[] = [];
   public displayVacantRooms: boolean = false;
+  public guestDto: GuestDto = {
+    firstName: "",
+    lastName: "",
+    pesel: "",
+    phoneNumber: "",
+    emailAddress: "",
+  }
 
   constructor(private router: Router, private hotelService: HotelService){
     if(this.router.getCurrentNavigation()?.extras.state == undefined)
@@ -41,9 +50,9 @@ export class ReceptionistPageComponent implements OnInit{
     )
   }
 
-  public registerNewGuest(guest: Guest):void{
-    this.hotelService.saveGuest(guest).subscribe(
-      response => {
+  onSubmitAddGuest(form: NgForm){
+    this.hotelService.saveGuest(this.guestDto).subscribe(
+      (guest: Guest) => {
         confirm("Dodano gościa do bazy danych")
       },
       error => {

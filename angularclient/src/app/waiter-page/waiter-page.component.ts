@@ -36,7 +36,7 @@ export class WaiterPageComponent implements OnInit{
     this.router.navigateByUrl("/personal-data", {state: {id: this.employeeId.id}});
   }
 
-  onSubmit(form: NgForm){
+  onSubmitAcceptOrder(form: NgForm){
     this.hotelService.acceptOrder(this.orderDto).subscribe(
       (response: HttpStatusCode.Accepted) => {
         confirm('Order accepted successfully');

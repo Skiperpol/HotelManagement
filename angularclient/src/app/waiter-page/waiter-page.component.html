@@ -3,7 +3,7 @@
 <button (click)="showPersonalData()">Personal Data</button>
 
 <h1>Accept Order</h1>
-<form #acceptOrder="ngForm" (ngSubmit)="onSubmit(acceptOrder)">
+<form #acceptOrder="ngForm" (ngSubmit)="onSubmitAcceptOrder(acceptOrder)">
     <div class="form-group">
        <label for="guestID">guestId:</label>
        <input type="text" [(ngModel)]="orderDto.guestId"

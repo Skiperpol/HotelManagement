@@ -3,3 +3,55 @@
 <div>
   <button (click)="showVacantRooms()">Pokaż puste pokoje</button>
 </div>
+
+<h1>Enter guest details!</h1>
+<form #addGuest="ngForm" (ngSubmit)="onSubmitAddGuest(addGuest)">
+    <div class="form-group">
+       <label for="First Name">firtName:</label>
+       <input type="text" [(ngModel)]="guestDto.firstName"
+           class="form-control"
+           id="firstName"
+           name="firstName"
+           placeholder="firstName"
+           required #firstName="ngModel">
+    </div>
+    <div>
+        <label for="Last Name">lastName:</label>
+    <input type="text" [(ngModel)]="guestDto.lastName"
+        class="form-control"
+        id="lastName"
+        name="lastName"
+        placeholder="lastName"
+        required #lastName="ngModel">
+    </div>
+    <div class="form-group">
+      <label for="pesel">PESEL:</label>
+      <input type="text" [(ngModel)]="guestDto.pesel"
+          class="form-control"
+          id="pesel"
+          name="pesel"
+          placeholder="PESEL"
+          required #pesel="ngModel">
+  </div>
+  <div class="form-group">
+      <label for="phoneNumber">Phone Number:</label>
+      <input type="text" [(ngModel)]="guestDto.phoneNumber"
+          class="form-control"
+          id="phoneNumber"
+          name="phoneNumber"
+          placeholder="Phone Number"
+          required #phoneNumber="ngModel">
+  </div>
+  <div class="form-group">
+      <label for="emailAddress">Email Address:</label>
+      <input type="email" [(ngModel)]="guestDto.emailAddress"
+          class="form-control"
+          id="emailAddress"
+          name="emailAddress"
+          placeholder="Email Address"
+          required #emailAddress="ngModel">
+  </div>
+    <div class="center">
+       <button type="submit" id="submitBtn" [disabled]="!addGuest.valid">add</button>
+    </div>
+</form>

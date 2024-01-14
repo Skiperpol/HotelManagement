@@ -8,6 +8,7 @@ import { OrderDto } from '../model/orderDto/orderDto';
 import { EmployeeLoginDto } from '../model/employeeLoginDto/employeeLoginDto';
 import { GuestAssignDto } from '../model/guestAssignDto/guestAssignDto';
 import { Observable, map} from 'rxjs';
+import { GuestDto } from '../model/guestDto/guestDto';
 
 @Injectable({
   providedIn: 'root'
@@ -42,14 +43,8 @@ export class HotelService {
     );
   }
 
-  public saveGuest(guest: Guest): Observable<any>{
-    return this.http.post<any>(this.mainUrl +'/employee/add', guest).pipe(
-      map(
-        (response: Response) =>{
-           console.log(response.json);
-        }
-      )
-    );
+  public saveGuest(guest: GuestDto): Observable<Guest>{
+    return this.http.post<Guest>(this.mainUrl +'/guest/add', guest);
   }
 
   public acceptOrder(orderDto: OrderDto): Observable<any>{
