@@ -17,7 +17,6 @@ export class ReceptionistPageComponent implements OnInit{
   public vacantRooms: Room[] = [];
   public displayVacantRooms: boolean = false;
 
-
   constructor(private router: Router, private hotelService: HotelService){
     if(this.router.getCurrentNavigation()?.extras.state == undefined)
       router.navigateByUrl('login');
@@ -29,52 +28,49 @@ export class ReceptionistPageComponent implements OnInit{
   }
   public assignRoom(guestAssignDto: GuestAssignDto):void{
     this.hotelService.assignRoom(guestAssignDto).subscribe(
-      response => {
-        this.displayVacantRooms = true;
-        confirm("Room Assigned");
-      },
-      error => {
-        let errorMessageJSON: string = JSON.stringify(error);
-        let key = "error";
-        let index = errorMessageJSON.indexOf(key);
-        let errorMessage = errorMessageJSON.substring(index+8, errorMessageJSON.length-2);
-        confirm(errorMessage);
-      }
+        response => {
+          confirm("Przypisano pokój");
+        },
+        error => {
+          let errorMessageJSON: string = JSON.stringify(error);
+          let key = "error";
+          let index = errorMessageJSON.indexOf(key);
+          let errorMessage = errorMessageJSON.substring(index, errorMessageJSON.length);
+          confirm(errorMessage);
+        }
     )
   }
-  public showPersonalData(): void {
-    this.router.navigateByUrl("/personal-data", {state: {id: this.employeeId.id}});
-  }
+
   public registerNewGuest(guest: Guest):void{
     this.hotelService.saveGuest(guest).subscribe(
-      response => {
-        confirm("Added guest do database")
-      },
-      error => {
-        let errorMessageJSON: string = JSON.stringify(error);
-        let key = "error";
-        let index = errorMessageJSON.indexOf(key);
-        let errorMessage = errorMessageJSON.substring(index+8, errorMessageJSON.length-2);
-        confirm(errorMessage);
-      }
+        response => {
+          confirm("Dodano gościa do bazy danych")
+        },
+        error => {
+          let errorMessageJSON: string = JSON.stringify(error);
+          let key = "error";
+          let index = errorMessageJSON.indexOf(key);
+          let errorMessage = errorMessageJSON.substring(index, errorMessageJSON.length);
+          confirm(errorMessage);
+        }
     )
   }
-  public showVacantRooms():void {
+  public showVacantRooms():void{
     this.hotelService.getVacantRooms().subscribe(
-      (rooms: Room[] ) => {
-        console.log("Showed Vacant Rooms");
-        this.vacantRooms = rooms;
-        confirm("Showed Vacant Rooms");
-
-      },
-      (error) => {
-        let errorMessageJSON: string = JSON.stringify(error);
-        let key = "error";
-        let index = errorMessageJSON.indexOf(key);
-        let errorMessage = errorMessageJSON.substring(index-8, errorMessageJSON.length+2);
-        confirm(errorMessage);
-      }
+        (rooms: Room[] ) => {
+          console.log("pokazano")
+          this.vacantRooms = rooms;
+          this.displayVacantRooms = true;
+        },
+        (error) => {
+          let errorMessageJSON: string = JSON.stringify(error);
+          let key = "error";
+          let index = errorMessageJSON.indexOf(key);
+          let errorMessage = errorMessageJSON.substring(index, errorMessageJSON.length);
+          confirm(errorMessage);
+        }
     )
   }
 
+  protected readonly ValidityState = ValidityState;
 }
