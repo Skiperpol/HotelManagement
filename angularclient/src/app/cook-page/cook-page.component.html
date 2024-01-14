@@ -3,7 +3,7 @@
 <h1>Ukoncz zamowienie</h1>
 <form #completeOrderForm="ngForm" (ngSubmit)="onSubmitCompleteOrder(completeOrderForm)">
   <div class="form-group">
-    <label for="orderId">roomId:</label>
+    <label for="orderId">orderId:</label>
     <input type="text" [(ngModel)]="orderId"
            class="form-control"
            id="orderId"
@@ -16,5 +16,13 @@
   </div>
   <div>
     <button (click)="showOrders()">Pokaż zamówienia</button>
+  </div>
+  <div *ngIf="displayOrders">
+    <div *ngFor="let menu of orderList">
+      <!-- Display properties of the room object -->
+      <p>Dish Name: {{menu.dishName}}</p>
+      <p>Dish Price: {{menu.dishPrice}}</p>
+      <!-- Add more properties as needed -->
+    </div>
   </div>
 </form>
