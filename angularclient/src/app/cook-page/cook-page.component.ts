@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import {HotelService} from "../service/hotel.service";
 import {Menu} from "../model/menu/menu";
 import {NgForm} from "@angular/forms";
-import {HttpStatusCode} from "@angular/common/http";
 
 @Component({
   selector: 'app-cook-page',
@@ -13,6 +12,7 @@ import {HttpStatusCode} from "@angular/common/http";
 export class CookPageComponent implements OnInit{
 
   public orderList: Menu[] = [];
+  public displayOrders: boolean = false;
   public orderId: number = 0;
 
   constructor(private router: Router, private hotelService: HotelService){
@@ -28,8 +28,9 @@ export class CookPageComponent implements OnInit{
   // mozna zrobic tak ze bedzie pole w ktorym wpisujemy id zamoiwienia, a potem klikamy przycisk ktory wywoluje metode 🐱‍👤🐱‍👤🤗🙄😪😯🤐🥱😴😧😩😳
   onSubmitCompleteOrder(form: NgForm){
     this.hotelService.completeOrder(this.employeeId,this.orderId).subscribe(
-      (response:any)=> {
-        console.log("pokazano");
+
+      response => {
+        console.log("pokazano")
         confirm('Zamówienie skompletowane');
       },
       error => {
@@ -47,10 +48,11 @@ export class CookPageComponent implements OnInit{
 //😋😋🍴🍴🍽🍽
   public showOrders(){
     this.hotelService.showOrders().subscribe(
-      (response:any) => {
+
+      response => {
         console.log("pokazano")
         this.orderList = response;
-
+        this.displayOrders = true;
       },
       error => {
         confirm("podano zły numer zamówienia")
