@@ -129,7 +129,7 @@ export class HotelService {
   }
 
   public completeOrder(employeeId: number, orderId: number): Observable<any>{
-    return this.http.put<any>(this.mainUrl +'/order/' + orderId + '/complete', employeeId).pipe(
+    return this.http.put<any>(this.mainUrl +'/order/' + orderId+ '/'+ employeeId + '/complete', null).pipe(
       map(
         (response: Response) =>{
            console.log(response.json);

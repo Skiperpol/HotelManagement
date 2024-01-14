@@ -278,15 +278,15 @@ public class HotelController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @PutMapping("/order/{orderId}/complete")
-    public ResponseEntity<Object> completeOrder(@RequestBody Long employeeId, @PathVariable int orderId){
+    @PutMapping("/order/{orderId}/{employeeId}/complete")
+    public ResponseEntity<Object> completeOrder(@PathVariable int orderId, @PathVariable Long employeeId){
         try {
             dataValidation.checkEmployeeExists(employeeId);
             HotelManagementApplication.pendingOrders.get(orderId-1);
         }catch (IndexOutOfBoundsException | NoSuchElementException ex){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Check order ID");
         }
-        hotelService.completeOrder(orderId,employeeId);
+        hotelService.completeOrder(orderId, employeeId);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
