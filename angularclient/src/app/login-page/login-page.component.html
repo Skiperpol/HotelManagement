@@ -1,23 +1,31 @@
-<form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)">
- <div class="form-group">
-    <label for="login">Login:</label>
-    <input type="text" [(ngModel)]="loginDto.empLogin"
-        class="form-control"
-        id="login"
-        name="login"
-        placeholder="Login"
-        required #login="ngModel">
- </div>
- <div class="form-group">
-    <label for="password">Password:</label>
-    <input type="text" [(ngModel)]="loginDto.empPassword"
-        class="form-control"
-        id="password"
-        name="password"
-        placeholder="Password"
-        required #password="ngModel">
- </div>
- <div class="center">
-    <button type="submit" id="submitBtn" [disabled]="!loginForm.valid">Sign in</button>
- </div>
+<div class="body">
+   <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)">
+<div class="mainCointainer">
+      <div class="welcomeContainer">
+         WELCOME
+      </div>
+
+      <div class="inputsContainer">
+         <div class="form-group">
+            <input type="text" [(ngModel)]="loginDto.empLogin"
+               class="form-control"
+               id="login"
+               name="login"
+               placeholder="Login"
+               required #login="ngModel">
+         </div>
+         <div class="form-group">
+            <input type="text" [(ngModel)]="loginDto.empPassword"
+               class="form-control"
+               id="password"
+               name="password"
+               placeholder="Password"
+               required #password="ngModel">
+         </div>
+      </div>
+      <div class="buttonContainer">
+         <button type="submit" id="submitBtn" [disabled]="!loginForm.valid">Sign in</button>
+      </div>
+</div>
 </form>
+</div>
