@@ -4,6 +4,7 @@ import { HotelService } from '../service/hotel.service';
 import { OrderDto } from '../model/orderDto/orderDto';
 import { NgForm } from '@angular/forms';
 import { HttpClient, HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
+import { Menu } from '../model/menu/menu';
 
 @Component({
   selector: 'app-waiter-page',
@@ -16,6 +17,7 @@ export class WaiterPageComponent implements OnInit{
     guestId: "",
     dishIds: ""
   }
+  public orders: Menu[] = [];
 
   constructor(
     private router: Router,
@@ -28,6 +30,7 @@ export class WaiterPageComponent implements OnInit{
   ngOnInit(): void {
     this.employeeId = history.state;
     console.log(this.employeeId.id);
+    this.showOrders();
   }
 
   public showPersonalData(): void {
@@ -36,7 +39,7 @@ export class WaiterPageComponent implements OnInit{
 
   onSubmit(form: NgForm){
     this.hotelService.acceptOrder(this.orderDto).subscribe(
-      (Response: HttpStatusCode.Accepted) => {
+      (response: HttpStatusCode.Accepted) => {
         confirm('Order accepted successfully');
       },
       (error) => {
@@ -44,6 +47,17 @@ export class WaiterPageComponent implements OnInit{
         console.log(error);
         confirm(this.errorMessage)
       });
+  }
+
+  public showOrders(): void {
+    this.hotelService.showOrders().subscribe(
+      (orders: Menu[]) => {
+        this.orders = orders;
+      },
+      (error) => {
+        console.error('Error fetching orders:', error);
+      }
+    )
   }
 
   

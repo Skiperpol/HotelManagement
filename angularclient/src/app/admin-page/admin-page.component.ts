@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import {Employee} from "../model/employee/employee";
 import {HotelService} from "../service/hotel.service";
+import { HttpStatusCode } from '@angular/common/http';
 
 @Component({
   selector: 'app-admin-page',
@@ -14,15 +15,27 @@ export class AdminPageComponent implements OnInit{
       router.navigateByUrl('login');
   }
   public employeeId: any;
+  public employee: Employee = {
+    personId: 0,
+    firstName: "",
+    lastName: "",
+    pesel: "",
+    phoneNumber: "",
+    emailAddress: "",
+    job: "",
+    salary: 0,
+    commission: 0,
+    hourlyWage: 0,
+  }
   ngOnInit(): void {
     this.employeeId = history.state;
     console.log(this.employeeId.id);
   }
 
-  public hire(employee: Employee):void{
-    this.hotelService.saveEmployee(employee).subscribe(
-      response => {
-        confirm("pomyślnie dodano pracownika do bazy danych")
+  public hire():void{
+    this.hotelService.saveEmployee(this.employee).subscribe(
+      (response: {employee: any}) => {
+        confirm("pomyślnie dodano pracownika " +  this.employee.job + " do bazy danych. ID: " + this.employee.personId)
       },
       error=>{
         let errorMessageJSON: string = JSON.stringify(error);

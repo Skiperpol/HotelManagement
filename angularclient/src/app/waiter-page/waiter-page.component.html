@@ -1,7 +1,8 @@
 <p>waiter-page works!</p>
 <p>{{employeeId.id}}</p>
 <button (click)="showPersonalData()">Dane osobowe</button>
-<h1>Przyjmij zamówienie</h1>
+
+<h1>Accept Order</h1>
 <form #acceptOrder="ngForm" (ngSubmit)="onSubmit(acceptOrder)">
     <div class="form-group">
        <label for="guestID">guestId:</label>
@@ -10,7 +11,7 @@
            id="guestId"
            name="guestId"
            placeholder="guestId"
-           required #login="ngModel">
+           required #guestId="ngModel">
     </div>
     <div>
         <label for="DishId">dishId:</label>
@@ -19,9 +20,21 @@
         id="dishIds"
         name="dishIds"
         placeholder="dishIds"
-        required #password="ngModel">
+        required #dishIds="ngModel">
     </div>
     <div class="center">
-       <button type="submit" id="submitBtn" [disabled]="!acceptOrder.valid">przyjmij</button>
+       <button type="submit" id="submitBtn" [disabled]="!acceptOrder.valid">accept</button>
     </div>
-   </form>
+
+    <div *ngIf="orders.length > 0; else noOrders">
+        <div *ngFor="let order of orders">
+          <p>Order ID: {{ order.dishId }}</p>
+          <p>Item: {{ order.dishName }}</p>
+          <p>Price: {{ order.dishPrice }}</p>
+        </div>
+      </div>
+      
+      <ng-template #noOrders>
+        <p>No pending orders.</p>
+      </ng-template>
+</form>
