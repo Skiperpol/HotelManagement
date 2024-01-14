@@ -6,6 +6,8 @@ import {GuestAssignDto} from "../model/guestAssignDto/guestAssignDto";
 import {resolve} from "@angular/compiler-cli";
 import {Guest} from "../model/guest/guest";
 import {Room} from "../model/room/room";
+import {EmployeeLoginDto} from "../model/employeeLoginDto/employeeLoginDto";
+import {NgForm} from "@angular/forms";
 
 @Component({
   selector: 'app-receptionist-page',
@@ -16,8 +18,13 @@ export class ReceptionistPageComponent implements OnInit{
 
   public vacantRooms: Room[] = [];
   public displayVacantRooms: boolean = false;
-
-  constructor(private router: Router, private hotelService: HotelService){
+  public guestAssignDto: GuestAssignDto = {
+      guestIds: "",
+      roomNumber: 0,
+      checkInDate: "",
+      checkOutDate: ""
+  }
+    constructor(private router: Router, private hotelService: HotelService){
     if(this.router.getCurrentNavigation()?.extras.state == undefined)
       router.navigateByUrl('login');
   }
@@ -26,8 +33,9 @@ export class ReceptionistPageComponent implements OnInit{
     this.employeeId = history.state;
     console.log(this.employeeId.id);
   }
-  public assignRoom(guestAssignDto: GuestAssignDto):void{
-    this.hotelService.assignRoom(guestAssignDto).subscribe(
+
+    onSubmitAssignRoom(form: NgForm){
+    this.hotelService.assignRoom(this.guestAssignDto).subscribe(
         response => {
           confirm("Przypisano pokój");
         },

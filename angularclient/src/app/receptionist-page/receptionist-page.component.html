@@ -1,5 +1,5 @@
-<p>cleaner-page works!</p>
-<button (click)="showPersonalData()">Dane osobowe</button>
+<p>receptionist-page works!</p>
+
 <button (click)="showVacantRooms()">Pokaz nieposprzatane pokoje</button>
 <div *ngIf="displayVacantRooms">
   <div *ngFor="let room of vacantRooms">
@@ -10,4 +10,46 @@
   </div>
 </div>
 
+<h1>Assign Room</h1>
+<form #assignRoom="ngForm" (ngSubmit)="onSubmitAssignRoom(assignRoom)">
+  <div class="form-group">
+    <label for="guestIDs">guestId:</label>
+    <input type="text" [(ngModel)]="guestAssignDto.guestIds"
+           class="form-control"
+           id="guestIds"
+           name="guestIds"
+           placeholder="guestIds"
+           required #guestIds="ngModel">
+  </div>
+  <div>
+    <label for="roomNumber">roomNumber:</label>
+    <input type="text" [(ngModel)]="guestAssignDto.roomNumber"
+           class="form-control"
+           id="roomNumber"
+           name="roomNumber"
+           placeholder="roomNumber"
+           required #dishIds="ngModel">
+  </div>
+  <div>
+    <label for="checkInDate">checkInDate:</label>
+    <input type="text" [(ngModel)]="guestAssignDto.checkInDate"
+           class="form-control"
+           id="checkInDate"
+           name="checkInDate"
+           placeholder="checkInDate"
+           required #checkInDate="ngModel">
+  </div>
+  <div>
+    <label for="checkOutDate">checkOutDate:</label>
+    <input type="text" [(ngModel)]="guestAssignDto.checkOutDate"
+           class="form-control"
+           id="checkOutDate"
+           name="checkOutDate"
+           placeholder="checkOutDate"
+           required #checkOutDate="ngModel">
+  </div>
+  <div class="center">
+    <button type="submit" id="submitBtn" [disabled]="!assignRoom.valid">Assign Room</button>
+  </div>
 
+</form>
