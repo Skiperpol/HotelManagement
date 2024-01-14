@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import {HotelService} from "../service/hotel.service";
 import {Menu} from "../model/menu/menu";
 import {NgForm} from "@angular/forms";
+import { HttpStatusCode } from '@angular/common/http';
 
 @Component({
   selector: 'app-cook-page',
@@ -19,7 +20,7 @@ export class CookPageComponent implements OnInit{
     if(this.router.getCurrentNavigation()?.extras.state == undefined)
       router.navigateByUrl('login');
   }
-  public employeeId: any;
+  public employeeId: {id: number} = {id: 1};
   ngOnInit(): void {
     this.employeeId = history.state;
     console.log(this.employeeId.id);
@@ -27,35 +28,35 @@ export class CookPageComponent implements OnInit{
   // ✅✅✅✅☑☑☑
   // mozna zrobic tak ze bedzie pole w ktorym wpisujemy id zamoiwienia, a potem klikamy przycisk ktory wywoluje metode 🐱‍👤🐱‍👤🤗🙄😪😯🤐🥱😴😧😩😳
   onSubmitCompleteOrder(form: NgForm){
-    this.hotelService.completeOrder(this.employeeId,this.orderId).subscribe(
+    this.hotelService.completeOrder(this.employeeId.id,this.orderId).subscribe(
 
-      response => {
-        console.log("pokazano")
-        confirm('Zamówienie skompletowane');
-      },
-      error => {
-        let errorMessageJSON: string = JSON.stringify(error);
-        let key = "error";
-        let index = errorMessageJSON.indexOf(key);
-        let errorMessage = errorMessageJSON.substring(index, errorMessageJSON.length);
-        confirm(errorMessage);
-      }
+        (response: HttpStatusCode.Ok) => {
+          console.log("Order completed");
+          confirm("Order completed");
+        },
+        error => {
+          let errorMessageJSON: string = JSON.stringify(error);
+          let key = "error";
+          let index = errorMessageJSON.indexOf(key);
+          let errorMessage = errorMessageJSON.substring(index+8, errorMessageJSON.length-2);
+          confirm(errorMessage);
+        }
 
     )
-}
+  }
 
 
 //😋😋🍴🍴🍽🍽
   public showOrders(){
     this.hotelService.showOrders().subscribe(
 
-      response => {
-        this.orderList = response;
-        this.displayOrders = true;
-      },
-      error => {
-        confirm("Wrong number")
-      }
+        response => {
+          this.orderList = response;
+          this.displayOrders = true;
+        },
+        error => {
+          confirm("Wrong number")
+        }
     )
   }
 }

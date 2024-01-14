@@ -1,8 +1,6 @@
-<p>receptionist-page works!</p>
-<p>{{employeeId.id}}</p>
-<div>
-  <button (click)="showVacantRooms()">Pokaż puste pokoje</button>
-</div>
+<p>cleaner-page works!</p>
+<button (click)="showPersonalData()">Dane osobowe</button>
+<button (click)="showVacantRooms()">Pokaz nieposprzatane pokoje</button>
 <div *ngIf="displayVacantRooms">
   <div *ngFor="let room of vacantRooms">
     <!-- Display properties of the room object -->
@@ -11,4 +9,5 @@
     <!-- Add more properties as needed -->
   </div>
 </div>
+
 
