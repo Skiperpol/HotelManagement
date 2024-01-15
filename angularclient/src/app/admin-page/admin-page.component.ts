@@ -36,7 +36,6 @@ export class AdminPageComponent implements OnInit{
     this.getEmployees();
     this.getBalance();
   }
-
   public getEmployees(): void {
     this.hotelService.getEmployees().subscribe(
       (response: Employee[]) => {
