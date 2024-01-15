@@ -24,5 +24,6 @@ export class HeaderComponent implements OnInit{
   public nextDay():void {
     this.hotelService.nextDay();
     this.getDate();
+    console.log(this.currentDate);
   }
 }
