@@ -44,7 +44,9 @@ export class CookPageComponent implements OnInit{
 
         )
     }
-
+    public showPersonalData(): void {
+        this.router.navigateByUrl('/personal-data', {state: {id: this.employeeId.id}});
+      }
 
 //😋😋🍴🍴🍽🍽
     public showOrders(){

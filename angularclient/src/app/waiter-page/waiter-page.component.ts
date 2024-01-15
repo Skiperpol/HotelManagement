@@ -33,7 +33,7 @@ export class WaiterPageComponent implements OnInit{
   }
 
   public showPersonalData(): void {
-    this.router.navigateByUrl("/personal-data", {state: {id: this.employeeId.id}});
+    this.router.navigateByUrl('/personal-data', {state: {id: this.employeeId.id}});
   }
 
   onSubmit(form: NgForm){
@@ -47,7 +47,4 @@ export class WaiterPageComponent implements OnInit{
         confirm(this.errorMessage)
       });
   }
-
-
-
 }

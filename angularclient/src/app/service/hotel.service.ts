@@ -8,6 +8,7 @@ import { OrderDto } from '../model/orderDto/orderDto';
 import { EmployeeLoginDto } from '../model/employeeLoginDto/employeeLoginDto';
 import { GuestAssignDto } from '../model/guestAssignDto/guestAssignDto';
 import { Observable, map} from 'rxjs';
+import { EmployeeDto } from '../model/employeeDto/employeeDto';
 
 @Injectable({
   providedIn: 'root'
@@ -22,8 +23,8 @@ export class HotelService {
      return this.http.post<{job: string, empID: any}>(this.mainUrl +'/login', loginDto);
   }
 
-  public saveEmployee(employee: Employee): Observable<any>{
-    return this.http.post<any>(this.mainUrl +'/employee/' + employee.job + '/add', employee).pipe(
+  public saveEmployee(employee: EmployeeDto, job: string): Observable<any>{
+    return this.http.post<any>(this.mainUrl +'/employee/' + job + '/add', employee).pipe(
       map(
         (response: Response) =>{
            console.log(response.json);

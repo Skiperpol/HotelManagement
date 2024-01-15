@@ -78,4 +78,8 @@ export class ReceptionistPageComponent implements OnInit{
     )
   }
 
+  public showPersonalData(): void {
+    this.router.navigateByUrl('/personal-data', {state: {id: this.employeeId.id}});
+  }
+
 }

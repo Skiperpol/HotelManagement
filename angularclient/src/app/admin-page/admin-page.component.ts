@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import {Employee} from "../model/employee/employee";
 import {HotelService} from "../service/hotel.service";
 import { HttpStatusCode } from '@angular/common/http';
+import { EmployeeDto } from '../model/employeeDto/employeeDto';
 
 @Component({
   selector: 'app-admin-page',
@@ -16,17 +17,16 @@ export class AdminPageComponent implements OnInit{
   }
   public employeeId: any;
   public employees: Employee[] = [];
-  public employee: Employee = {
-    personId: 0,
+  public jobDto: string = "";
+  public employee: EmployeeDto = {
+    empLogin: "",
+    empPassword: "",
     firstName: "",
     lastName: "",
     pesel: "",
     phoneNumber: "",
     emailAddress: "",
-    job: "",
-    salary: 0,
-    commission: 0,
-    hourlyWage: 0,
+    salaryIfApplicable:0
   }
   ngOnInit(): void {
     this.employeeId = history.state;
@@ -40,15 +40,15 @@ export class AdminPageComponent implements OnInit{
   }
 
   public hire():void{
-    this.hotelService.saveEmployee(this.employee).subscribe(
-      (employee: Employee) => {
-        confirm("Added " +  this.employee.job + " to database. ID: " + this.employee.personId)
+    this.hotelService.saveEmployee(this.employee, this.jobDto).subscribe(
+      (response: Employee) => {
+        confirm("Added " +  this.jobDto + " to database. ID: " + response?.personId);
       },
       error=>{
         let errorMessageJSON: string = JSON.stringify(error);
         let key = "error";
         let index = errorMessageJSON.indexOf(key);
-        let errorMessage = errorMessageJSON.substring(index, errorMessageJSON.length);
+        let errorMessage = errorMessageJSON.substring(index+8, errorMessageJSON.length-2);
         confirm(errorMessage);
       }
     )
@@ -62,9 +62,13 @@ export class AdminPageComponent implements OnInit{
         let errorMessageJSON: string = JSON.stringify(error);
         let key = "error";
         let index = errorMessageJSON.indexOf(key);
-        let errorMessage = errorMessageJSON.substring(index, errorMessageJSON.length);
+        let errorMessage = errorMessageJSON.substring(index+8, errorMessageJSON.length-2);
         confirm(errorMessage);
       }
     )
+  }
+
+  public showPersonalData(): void {
+    this.router.navigateByUrl('/personal-data', {state: {id: this.employeeId.id}});
   }
 }
