@@ -32,6 +32,11 @@ export class AdminPageComponent implements OnInit{
   ngOnInit(): void {
     this.employeeId = history.state;
     console.log(this.employeeId.id);
+    this.getEmployees();
+    
+  }
+
+  public getEmployees(): void {
     this.hotelService.getEmployees().subscribe(
       (response: Employee[]) => {
         this.employees = response;
@@ -57,7 +62,8 @@ export class AdminPageComponent implements OnInit{
   public fire(employeeId: number):void{
     this.hotelService.deleteEmployee(employeeId).subscribe(
       response => {
-        confirm("Deleted from database.")
+        confirm("Deleted from database.");
+        this.getEmployees();
       },
       error=>{
         let errorMessageJSON: string = JSON.stringify(error);
