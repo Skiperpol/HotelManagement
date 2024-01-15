@@ -54,10 +54,10 @@ export class AdminPageComponent implements OnInit{
       }
     )
   }
-  public fire(employeeId: string):void{
+  public fire(employeeId: number):void{
     this.hotelService.deleteEmployee(employeeId).subscribe(
       response => {
-        confirm("pomyślnie usunięto pracownika z bazy danych")
+        confirm("Deleted from database.")
       },
       error=>{
         let errorMessageJSON: string = JSON.stringify(error);

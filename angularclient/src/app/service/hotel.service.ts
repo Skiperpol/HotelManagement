@@ -159,7 +159,7 @@ export class HotelService {
     );
   }
 
-  public deleteEmployee(employeeId : string){
+  public deleteEmployee(employeeId : number){
     return this.http.delete(this.mainUrl + '/employee/'+ employeeId +'/delete')
   }
 }

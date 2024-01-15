@@ -92,7 +92,7 @@ public class DataValidation {
                 || employeeDto.getPhoneNumber().split("[a-zA-z\\D]+")[0].length() != 9)
             throw new IllegalArgumentException();
         //email
-        Matcher m = Pattern.compile("^(?!\\.)[a-zA-Z0-9.]+@[a-zA-Z0-9]+\\.[a-zA-Z]{2,}$")
+        Matcher m = Pattern.compile("^(?!\\.)[a-zA-Z0-9.]+@[a-zA-Z0-9.]+\\.[a-zA-Z]{2,}$")
                 .matcher(employeeDto.getEmailAddress());
         String s = null;
         while (m.find()) {
