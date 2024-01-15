@@ -19,6 +19,7 @@ export class AdminPageComponent implements OnInit{
   public employeeId: any;
   public employees: Employee[] = [];
   public jobDto: string = "";
+  public balance: number = 0;
   public employee: EmployeeDto = {
     empLogin: "",
     empPassword: "",
@@ -33,7 +34,7 @@ export class AdminPageComponent implements OnInit{
     this.employeeId = history.state;
     console.log(this.employeeId.id);
     this.getEmployees();
-    
+    this.getBalance();
   }
 
   public getEmployees(): void {
@@ -48,7 +49,7 @@ export class AdminPageComponent implements OnInit{
   public onSubmit(createForm: NgForm):void{
     this.hotelService.saveEmployee(this.employee, this.jobDto).subscribe(
       (response: Employee) => {
-        confirm("Added " +  this.jobDto + " to database. ID: " + response?.personId);
+        confirm("Added " +  this.jobDto + " to database." + response.personId);
       },
       error=>{
         let errorMessageJSON: string = JSON.stringify(error);
@@ -58,19 +59,29 @@ export class AdminPageComponent implements OnInit{
         confirm(errorMessage);
       }
     )
+    this.getEmployees();
   }
   public fire(employeeId: number):void{
     this.hotelService.deleteEmployee(employeeId).subscribe(
-      response => {
+      (response) => {
         confirm("Deleted from database.");
-        this.getEmployees();
       },
-      error=>{
+      (error)=>{
         let errorMessageJSON: string = JSON.stringify(error);
         let key = "error";
         let index = errorMessageJSON.indexOf(key);
         let errorMessage = errorMessageJSON.substring(index+8, errorMessageJSON.length-2);
         confirm(errorMessage);
+      }
+    )
+    this.getEmployees();
+  }
+
+  public getBalance():void{
+    this.hotelService.getBalance().subscribe(
+      (response: number) =>{
+        this.balance = response;
+        console.log(this.balance);
       }
     )
   }
