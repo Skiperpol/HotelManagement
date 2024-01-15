@@ -1,30 +1,34 @@
 
+<div class="body">
+    <div class="mainContainer">
 
 <h1>Accept Order</h1>
 <form #acceptOrder="ngForm" (ngSubmit)="onSubmit(acceptOrder)">
     <div class="form-group">
-       <label for="guestID">guestId:</label>
+       <!-- <label for="guestID">guestId:</label> -->
        <input type="text" [(ngModel)]="orderDto.guestId"
            class="form-control"
            id="guestId"
            name="guestId"
-           placeholder="guestId"
+           placeholder="Guest ID"
            required #guestId="ngModel">
     </div>
     <div>
-        <label for="DishId">dishId:</label>
+        <!-- <label for="DishId">dishId:</label> -->
     <input type="text" [(ngModel)]="orderDto.dishIds"
         class="form-control"
         id="dishIds"
         name="dishIds"
-        placeholder="dishIds"
+        placeholder="Dish ID"
         required #dishIds="ngModel">
     </div>
-    <div class="center">
+    <div class="buttonSubmit">
        <button type="submit" id="submitBtn" [disabled]="!acceptOrder.valid">accept</button>
     </div>
 </form>
-
+</div>
+        
+</div>
 <div class="footer">
     <button class="personalData button" (click)="showPersonalData()">Personal Data</button>
 </div>

@@ -13,7 +13,6 @@ import { HttpStatusCode } from '@angular/common/http';
 export class CookPageComponent implements OnInit{
 
     public orderList: Menu[] = [];
-    public displayOrders: boolean = false;
     public orderId: number = 0;
 
     constructor(private router: Router, private hotelService: HotelService){
@@ -23,6 +22,7 @@ export class CookPageComponent implements OnInit{
     public employeeId: {id: number} = {id: 1};
     ngOnInit(): void {
         this.employeeId = history.state;
+        this.showOrders();
         console.log(this.employeeId.id);
     }
     // ✅✅✅✅☑☑☑
@@ -53,7 +53,6 @@ export class CookPageComponent implements OnInit{
         this.hotelService.showOrders().subscribe(
             response => {
                 this.orderList = response;
-                this.displayOrders = true;
             },
             error => {
                 let errorMessageJSON: string = JSON.stringify(error);
