@@ -51,6 +51,9 @@ button {
     font-size: 15px;
 }
 
+button:hover{
+    cursor: pointer;
+}
 .wyloguj{
     background-color: rgb(255, 46, 46);
     padding: 8px;
@@ -59,4 +62,27 @@ button {
 .wyloguj:hover{
     cursor: pointer;
     background-color: rgb(147, 9, 37);
+}
+
+.nextDay, .data, .buttonNextDay{
+    float: right;
+    width: 150px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.data{
+    width: 100px;
+    color: white;
+}
+
+.buttonNextDayContainer{
+    width: 50px;
+}
+
+.buttonNextDay{
+    width: 40px;
+    height: 30px;
 }

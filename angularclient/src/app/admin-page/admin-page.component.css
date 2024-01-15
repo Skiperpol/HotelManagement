@@ -140,3 +140,9 @@ button:hover{
     justify-content: center;
     align-items: center;
 }
+
+.balance{
+    position: absolute;
+    top: 85px;
+    right: 35px;
+}

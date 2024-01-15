@@ -10,10 +10,19 @@ export class HeaderComponent implements OnInit{
   constructor(private hotelService: HotelService){}
   public currentDate: string = "";
   ngOnInit(): void {
+   this.getDate();
+  }
+
+  public getDate():void{
     this.hotelService.getCurrentDate().subscribe(
       (response: string) => {
         this.currentDate = response;
       }
     )
+  }
+
+  public nextDay():void {
+    this.hotelService.nextDay();
+    this.getDate();
   }
 }
