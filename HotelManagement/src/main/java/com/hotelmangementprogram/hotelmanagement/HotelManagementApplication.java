@@ -32,8 +32,13 @@ public class HotelManagementApplication {
 	public static void setUp(){
 
 		try (FileReader fileReader = new FileReader("balance.txt"); Scanner scanner=new Scanner(fileReader)) {
-
-			balance = parseDouble(scanner.nextLine());
+			while(scanner.hasNextLine()){
+				try {
+					balance = Double.parseDouble(scanner.nextLine());
+				}catch(NumberFormatException e){
+					System.out.println("Wykryto błędnie zapisane dane w pliku Balance.txt. Wymaga on naprawy.");
+				}
+			}
 
 
 		} catch (FileNotFoundException e) {
@@ -59,6 +64,7 @@ public class HotelManagementApplication {
 			System.out.println("Nie można znaleźć klasy podczas deserializacji obiektu: " + e.getMessage());
 			e.printStackTrace();
 		}
+
 	}
 
 

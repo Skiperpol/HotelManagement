@@ -1,2 +1,28 @@
 <p>waiter-page works!</p>
 <p>{{employeeId.id}}</p>
+<button (click)="showPersonalData()">Personal Data</button>
+
+<h1>Accept Order</h1>
+<form #acceptOrder="ngForm" (ngSubmit)="onSubmit(acceptOrder)">
+    <div class="form-group">
+       <label for="guestID">guestId:</label>
+       <input type="text" [(ngModel)]="orderDto.guestId"
+           class="form-control"
+           id="guestId"
+           name="guestId"
+           placeholder="guestId"
+           required #guestId="ngModel">
+    </div>
+    <div>
+        <label for="DishId">dishId:</label>
+    <input type="text" [(ngModel)]="orderDto.dishIds"
+        class="form-control"
+        id="dishIds"
+        name="dishIds"
+        placeholder="dishIds"
+        required #dishIds="ngModel">
+    </div>
+    <div class="center">
+       <button type="submit" id="submitBtn" [disabled]="!acceptOrder.valid">accept</button>
+    </div>
+</form>

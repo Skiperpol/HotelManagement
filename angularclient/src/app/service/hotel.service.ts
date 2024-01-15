@@ -14,6 +14,7 @@ import { Observable, map} from 'rxjs';
 })
 export class HotelService {
 
+
   public mainUrl = 'http://localhost:8080/hotel'
   constructor(private http: HttpClient) {}
 
@@ -51,14 +52,19 @@ export class HotelService {
     );
   }
 
-  public acceptOrder(order: OrderDto): Observable<any>{
-    return this.http.post<any>(this.mainUrl +'/waiter/accept', order).pipe(
+  public acceptOrder(orderDto: OrderDto): Observable<any>{
+    return this.http.post<any>(this.mainUrl +'/waiter/accept', orderDto).pipe(
       map(
         (response: Response) =>{
-           console.log(response.json);
+           console.log(response);
         }
       )
     );
+  }
+
+  //
+  public showOrders(): Observable<Menu[]>{
+    return this.http.get<Menu[]>(this.mainUrl + '/order/get/all');
   }
 
   public nextDay(): void{
