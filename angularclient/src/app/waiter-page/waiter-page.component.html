@@ -1,6 +1,4 @@
-<p>waiter-page works!</p>
-<p>{{employeeId.id}}</p>
-<button (click)="showPersonalData()">Personal Data</button>
+
 
 <h1>Accept Order</h1>
 <form #acceptOrder="ngForm" (ngSubmit)="onSubmit(acceptOrder)">
@@ -26,3 +24,7 @@
        <button type="submit" id="submitBtn" [disabled]="!acceptOrder.valid">accept</button>
     </div>
 </form>
+
+<div class="footer">
+    <button class="personalData button" (click)="showPersonalData()">Personal Data</button>
+</div>

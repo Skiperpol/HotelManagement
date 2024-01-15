@@ -4,6 +4,7 @@ import {Employee} from "../model/employee/employee";
 import {HotelService} from "../service/hotel.service";
 import { HttpStatusCode } from '@angular/common/http';
 import { EmployeeDto } from '../model/employeeDto/employeeDto';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-admin-page',
@@ -39,7 +40,7 @@ export class AdminPageComponent implements OnInit{
     );
   }
 
-  public hire():void{
+  public onSubmit(createForm: NgForm):void{
     this.hotelService.saveEmployee(this.employee, this.jobDto).subscribe(
       (response: Employee) => {
         confirm("Added " +  this.jobDto + " to database. ID: " + response?.personId);
