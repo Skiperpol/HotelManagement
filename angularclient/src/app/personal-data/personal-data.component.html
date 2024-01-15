@@ -1,5 +1,61 @@
-<div>
-    <h1>Employee Details</h1>
-    <p>Name: {{employee.personId}}</p>
-    <p>Position: {{ employee.job }}</p>
+<div class="body">
+    <div class="mainContainer">
+        <div class="top">
+            Employee Details
+        </div>
+        <div class="bottom">
+            <div class="left">
+                <div class="daneLeft dane">
+                    Name:
+                </div>
+                <div class="daneLeft dane">
+                    Last Name:
+                </div>
+                <div class="daneLeft dane">
+                    Pesel:
+                </div>
+                <div class="daneLeft dane">
+                    Phone Number:
+                </div>
+                <div class="daneLeft dane">
+                    Email Address:
+                </div>
+                <div class="daneLeft dane">
+                    Job:
+                </div>
+            </div>
+            <div class="right">
+                <div class="daneRight dane">
+                    {{employee.firstName}}
+                </div>
+                <div class="daneRight dane">
+                    {{employee.lastName}}
+                </div>
+                <div class="daneRight dane">
+                    {{employee.pesel}}
+                </div>
+                <div class="daneRight dane">
+                    {{employee.phoneNumber}}
+                </div>
+                <div class="daneRight dane">
+                    {{employee.emailAddress}}
+                </div>
+                <div class="daneRight dane">
+                    {{employee.job}}
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+
+personId: 0,
+firstName: "",
+lastName: "",
+pesel: "",
+phoneNumber: "",
+emailAddress: "",
+job: "",
+salary: 0,
+commission: 0,
+hourlyWage: 0
