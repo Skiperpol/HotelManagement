@@ -32,10 +32,13 @@ public class HotelService {
     private RoomRepository roomRepository;
 
     /**
-     * Method search in the database for asked login and password
-     * @param: (1) empPassword password
-     * <p></p>(2) empLogin login
-     * @Results: returns EmployeeLogin data from database if there's a match
+     * Method searches the database, looking for a match between the given credentials and existing ones. 
+     * @param:
+     * (1) empPassword User input password
+     * (2) empLogin    User input login
+     * @Results: 
+     * (1) Returns EmployeeLogin data as Optional type from the database if there's a match 
+     * (2) Returns empty Optional type if the given credentials are invalid
      */
     public Optional<EmployeeLogin> login(String empLogin, String empPassword){
         return employeeLoginRepository.findAll().stream()
