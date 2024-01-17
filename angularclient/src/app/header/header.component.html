@@ -1,10 +1,19 @@
-<div class="header">
+<div class="header" routerLink="">
     <div class="left">
         Hotel Management
     </div>
     <div class="right">
         <div class="wylogujContainer">
-            <button class="wyloguj">WYLOGUJ</button>
+            <button class="wyloguj" routerLink="">Logout</button>
         </div>
+        <div class="nextDay">
+            <div class="data">
+                {{currentDate}}
+            </div>
+            <div class="buttonNextDayContainer">
+                <button (click)="nextDay()" class="buttonNextDay">-></button>
+            </div> 
+        </div>
+
     </div>
 </div>

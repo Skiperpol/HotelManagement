@@ -19,7 +19,7 @@ export class CleanerPageComponent implements OnInit{
   }
 
   public showPersonalData(): void {
-    this.router.navigateByUrl("/personal-data", {state: {id: this.employeeId.id}});
+    this.router.navigateByUrl('/personal-data', {state: {id: this.employeeId.id}});
   }
 
 

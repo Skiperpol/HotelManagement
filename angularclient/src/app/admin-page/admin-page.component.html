@@ -1,35 +1,64 @@
+
+<div class="balance">
+  Balance: {{balance}}
+</div>
 <div class="body">
-    <div class="container">
-        <div class="buttonsContainer">
-            <button class="button">HIRE</button>
-            <button class="button red">FIRE</button>
+    <div class="leftBody">
+        <div class="createContainer">
+            <div class="createText">
+                Create Employee
+            </div>
+            <form #createEmployeeForm="ngForm" (ngSubmit)="onSubmit(createEmployeeForm)">
+            <div class="createInputs">
+
+                <input type="text" [(ngModel)]="employee.empLogin" id="login" name="login" placeholder="Login" required #login="ngModel"><br>
+                <input type="text" [(ngModel)]="employee.empPassword" id="empPassword" name="empPassword" placeholder="Password" required #empPassword="ngModel"><br>
+                <input type="text" [(ngModel)]="employee.firstName" id="firstName" name="firstName" placeholder="First Name" required #firstName="ngModel"><br>
+                <input type="text" [(ngModel)]="employee.lastName" id="lastName" name="lastName" placeholder="Last Name" required #lastName="ngModel"><br>
+                <input type="text" [(ngModel)]="employee.pesel" id="pesel" name="pesel" placeholder="Pesel" required #pesel="ngModel"><br>
+                <input type="text" [(ngModel)]="employee.phoneNumber" id="phoneNumber" name="phoneNumber" placeholder="Phone number" required #phoneNumber="ngModel"><br>
+                <input type="text" [(ngModel)]="employee.emailAddress" id="emailAddress" name="emailAddress" placeholder="Email Address" required #emailAddress="ngModel"><br>
+                <input type="text" [(ngModel)]="jobDto" id="job" name="job" placeholder="Job" required #Job="ngModel"><br>
+                <input type="text" [(ngModel)]="employee.salaryIfApplicable" id="salaryIfApplicable" name="salaryIfApplicable" placeholder="Salary" required #salaryIfApplicable="ngModel"><br>
+
+            </div>
+            <div class="createSubmit">
+                <button type="submit" [disabled]="!createEmployeeForm.valid" class="createSubmitButton">APPLY</button>
+            </div>
+        </form>
         </div>
-        <div class="dataContainer">
-            <div class="listItem">
-                <div class="left">
-                    Wszystkie dane
-                </div>
-                <div class="right">
-                    <button class="button yellow">EDIT</button>
-                </div>
+    </div>
+    <div class="rightBody">
+        <div class="employeesContainer">
+            <div class="top">
+                Employees
             </div>
-            <div class="listItem">
-                <div class="left">
-                    Wszystkie dane
+            <div class="bottom">
+                <div *ngFor="let currentEmployee of employees">
+                    <div class="listItem">
+                        <div class="listLeft">
+                            <div class="firstName">
+                                {{currentEmployee.firstName}}
+                            </div>
+                            <div class="lastName">
+                                {{currentEmployee.lastName}}
+                            </div>
+                            <div class="phoneNumber">
+                                {{currentEmployee.phoneNumber}}
+                            </div>
+                            <div class="job">
+                                {{currentEmployee.job}}
+                            </div>
+                        </div>
+                        <div class="listRight">
+                            <button class="fire" (click)="fire(currentEmployee.personId)">FIRE</button>
+                        </div>
+                    </div>
                 </div>
-                <div class="right">
-                    <button class="button yellow">EDIT</button>
-                </div>
-            </div>
-            <div class="listItem">
-                <div class="left">
-                    Wszystkie dane
-                </div>
-                <div class="right">
-                    <button class="button yellow">EDIT</button>
-                </div>
-            </div>
+            </div>    
         </div>
     </div>
 </div>
-
+<div class="footer">
+    <button class="personalData button" (click)="showPersonalData()">Personal Data</button>
+  </div>

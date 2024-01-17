@@ -15,7 +15,13 @@ import {Room} from "../model/room/room";
 export class ReceptionistPageComponent implements OnInit{
 
   public vacantRooms: Room[] = [];
-  public displayVacantRooms: boolean = false;
+  public allRooms: Room[] = [];
+  public assignRoomModel: GuestAssignDto = {
+    guestIds: "",
+    roomNumber: 0,
+    checkInDate: "",
+    checkOutDate: ""
+  }
 
   constructor(private router: Router, private hotelService: HotelService){
     if(this.router.getCurrentNavigation()?.extras.state == undefined)
@@ -25,13 +31,24 @@ export class ReceptionistPageComponent implements OnInit{
   ngOnInit(): void {
     this.employeeId = history.state;
     console.log(this.employeeId.id);
+    this.getAllRooms();
+    this.showVacantRooms();
   }
-  public assignRoom(guestAssignDto: GuestAssignDto):void{
-    this.hotelService.assignRoom(guestAssignDto).subscribe(
-      response => {
+
+  public getAllRooms(){
+    this.hotelService.getRooms().subscribe(
+      (response: Room[]) => {
+        this.allRooms = response;
+      }
+    );
+  }
+  public assignRoom():void{
+    this.hotelService.assignRoom(this.assignRoomModel).subscribe(
+      (response: any) => {
+        this.getAllRooms();
         confirm("Przypisano pokój");
       },
-      error => {
+      (error) => {
         let errorMessageJSON: string = JSON.stringify(error);
         let key = "error";
         let index = errorMessageJSON.indexOf(key);
@@ -60,16 +77,12 @@ export class ReceptionistPageComponent implements OnInit{
       (rooms: Room[] ) => {
         console.log("pokazano")
         this.vacantRooms = rooms;
-        this.displayVacantRooms = true;
-      },
-      (error) => {
-        let errorMessageJSON: string = JSON.stringify(error);
-        let key = "error";
-        let index = errorMessageJSON.indexOf(key);
-        let errorMessage = errorMessageJSON.substring(index, errorMessageJSON.length);
-        confirm(errorMessage);
       }
     )
+  }
+
+  public showPersonalData(): void {
+    this.router.navigateByUrl('/personal-data', {state: {id: this.employeeId.id}});
   }
 
 }

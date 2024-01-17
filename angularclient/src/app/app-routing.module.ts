@@ -18,8 +18,7 @@ const routes: Routes = [
   { path: '', component: LoginPageComponent},
   { path: 'receptionist', component: ReceptionistPageComponent },
   { path: 'waiter', component: WaiterPageComponent },
-  { path: 'personal-data', component: PersonalDataComponent },
-  { path: '**', redirectTo: ''}
+  { path: 'personal-data', component: PersonalDataComponent}
 ];
 
 @NgModule({

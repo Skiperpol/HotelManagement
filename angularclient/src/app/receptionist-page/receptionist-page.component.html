@@ -1,5 +1,60 @@
-<p>receptionist-page works!</p>
-<p>{{employeeId.id}}</p>
-<div>
-  <button (click)="showVacantRooms()">Pokaż puste pokoje</button>
+<div class="body">
+  <div class="leftBody">
+
+    <div class="leftBodyContainer">
+      <div class="title">
+        ROOMS
+      </div>
+    <ng-container *ngFor="let currentRoom of allRooms; let i = index">
+      <div class="room" [ngClass]="{'red-bg': !currentRoom.roomIsEmpty}">
+        {{currentRoom.roomNumber}}
+      </div>
+      <ng-container *ngIf="(i + 1) % 5 === 0">
+        <br>
+      </ng-container>
+
+    </ng-container>
+  </div>
+  </div>
+
+
+  <div class="rightBody">
+    <div class="topRightBody">
+      <div class="containerForms">
+        <div class="titleForm">
+          ASSIGN ROOM
+        </div>
+        <form #assignRoomForm="ngForm" (ngSubmit)="assignRoom()">
+
+        <div class="inputsForm">
+                <input type="text" [(ngModel)]="assignRoomModel.guestIds" id="guestIds" name="guestIds" placeholder="Guest ID" required #guestIds="ngModel"><br>
+                <input type="text" [(ngModel)]="assignRoomModel.roomNumber" id="roomNumber" name="roomNumber" placeholder="Room Number" required #roomNumber="ngModel"><br>
+                <input type="text" [(ngModel)]="assignRoomModel.checkInDate" id="checkInDate" name="checkInDate" placeholder="Chceck In Date" required #checkInDate="ngModel"><br>
+                <input type="text" [(ngModel)]="assignRoomModel.checkOutDate" id="checkOutDate" name="checkOutDate" placeholder="Check Out Date" required #checkOutDate="ngModel"><br>
+        </div>
+        <div class="buttonSubmitForm">
+          <button type="submit" class="button">Submit</button>
+        </div>
+      </form>
+      </div>
+    </div>
+    <!-- <div class="bottomRightBody">
+ <div class="containerForms">
+        <div class="titleForm">
+          REGISTER USER
+        </div>
+        <div class="inputsForm">
+
+        </div>
+        <div class="buttonSubmitForm">
+          <button type="submit" class="button">Submit</button>
+        </div>
+      </div>
+    </div> -->
+  </div>
+</div>
+
+
+<div class="footer">
+  <button class="personalData button" (click)="showPersonalData()">Personal Data</button>
 </div>

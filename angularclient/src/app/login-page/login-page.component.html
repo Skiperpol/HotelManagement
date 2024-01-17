@@ -15,7 +15,7 @@
                required #login="ngModel">
          </div>
          <div class="form-group">
-            <input type="text" [(ngModel)]="loginDto.empPassword"
+            <input type="password" [(ngModel)]="loginDto.empPassword"
                class="form-control"
                id="password"
                name="password"
@@ -26,8 +26,6 @@
       <div class="buttonContainer">
          <button type="submit" id="submitBtn" [disabled]="!loginForm.valid">Sign in</button>
       </div>
-
-
 </div>
 </form>
 </div>

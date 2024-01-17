@@ -92,7 +92,7 @@ public class DataValidation {
                 || employeeDto.getPhoneNumber().split("[a-zA-z\\D]+")[0].length() != 9)
             throw new IllegalArgumentException();
         //email
-        Matcher m = Pattern.compile("^(?!\\.)[a-zA-Z0-9.]+@[a-zA-Z0-9]+\\.[a-zA-Z]{2,}$")
+        Matcher m = Pattern.compile("^(?!\\.)[a-zA-Z0-9.]+@[a-zA-Z0-9.]+\\.[a-zA-Z]{2,}$")
                 .matcher(employeeDto.getEmailAddress());
         String s = null;
         while (m.find()) {
@@ -187,9 +187,9 @@ public class DataValidation {
         LocalDate dateIn = LocalDate.parse(guestAssignDto.getCheckInDate());
         LocalDate dateOut = LocalDate.parse(guestAssignDto.getCheckOutDate());
         //Checks the date order
-        if (!dateOut.isAfter(dateIn) ||
-                !(dateIn.isAfter(HotelManagementApplication.currentDate)
-                        || dateIn.isEqual(HotelManagementApplication.currentDate)))
+        if (!dateOut.isAfter(dateIn))
+//               || !(dateIn.isAfter(HotelManagementApplication.currentDate)
+//                        || dateIn.isEqual(HotelManagementApplication.currentDate)))
             throw new DateTimeException(null);
     }
 }
