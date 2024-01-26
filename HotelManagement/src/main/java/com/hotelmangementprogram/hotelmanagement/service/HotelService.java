@@ -200,6 +200,7 @@ public class HotelService {
         Room newRoom = roomRepository.findAll().stream()
                 .filter(room -> room.getRoomNumber().equals(guestAssignDto.getRoomNumber()))
                 .findAny().get(); //Always is present
+
         newRoom.setRoomIsEmpty(false);
         newRoom.setGuestIds(guestAssignDto.getGuestIds());
         for(String guestId: guestAssignDto.getGuestIds().split(",")){
