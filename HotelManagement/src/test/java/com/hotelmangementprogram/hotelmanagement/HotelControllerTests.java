@@ -1,6 +1,6 @@
 package com.hotelmangementprogram.hotelmanagement;
 
-import com.hotelmangementprogram.hotelmanagement.model.Guest;
+import com.hotelmangementprogram.hotelmanagement.model.*;
 import com.hotelmangementprogram.hotelmanagement.service.DataValidation;
 import com.hotelmangementprogram.hotelmanagement.service.HotelService;
 import org.junit.jupiter.api.Test;
@@ -44,4 +44,24 @@ public class HotelControllerTests {
                 .andExpect(jsonPath("$[0].firstName").value("first"))
                 .andExpect(jsonPath("$[1].firstName").value("first2"));
     }
+
+
+    @Test
+    public void getEmployee_ShouldReturnEmployeeList_WhenCalled() throws Exception{
+        List<Employee> employeeList = Arrays.asList(
+
+                new Cook(1L, "first", "second", "12345678910", "123456789", "email@com", Job.COOK, null, null),
+                new Receptionist(1L, "first2", "second2", "12345678910", "123456789", "email@com", Job.RECEPTIONIST, null)
+        );
+        when(hotelService.getEmployees()).thenReturn(employeeList);
+
+        mockMvc.perform(MockMvcRequestBuilders.get(BASE_ENDPOINT+ "/employee/get/all"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$[0].personId").value(1))
+                .andExpect(jsonPath("$[0].firstName").value("first"))
+                .andExpect(jsonPath("$[1].firstName").value("first2"));
+    }
+
 }
