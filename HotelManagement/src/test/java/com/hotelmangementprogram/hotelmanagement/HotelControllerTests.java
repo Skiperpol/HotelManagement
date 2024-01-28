@@ -64,4 +64,21 @@ public class HotelControllerTests {
                 .andExpect(jsonPath("$[1].firstName").value("first2"));
     }
 
+    @Test
+    public void getRooms_ShouldReturnRoomList_WhenCalled() throws Exception{
+        List<Room> roomList = Arrays.asList(
+                new Room(1L, 1L, 11, false, false, RoomType.DOUBLEROOM, "1"),
+                new Room(2L, 2L, 12, true, true, RoomType.SUITE, "")
+        );
+        when(hotelService.getRooms()).thenReturn(roomList);
+
+        mockMvc.perform(MockMvcRequestBuilders.get(BASE_ENDPOINT+ "/room/get/all"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$[0].roomId").value(1))
+                .andExpect(jsonPath("$[0].roomNumber").value(1))
+                .andExpect(jsonPath("$[1].roomNumber").value(2));
+    }
+
 }
